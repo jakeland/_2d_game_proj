@@ -2,7 +2,7 @@
 #include <math.h>
 #include "entity.h"
 
-enum FACTION {E_NONE,E_Player,E_Bugs}; /*labeling system for enemies */
+enum FACTION {E_NONE,E_Player,E_Bugs}; /*labeling system for enemies, decides what effects what. */
 extern SDL_Surface *screen;
 extern SDL_Event Event; //This is just so the think functions in this file can read what has been input.
 extern SDL_Rect Camera;
@@ -14,6 +14,7 @@ int NumLives = 3;
 int NumEnts;
 int MOUSEMOVE = 1;
 int lastx,lasty;
+int gx, gy; /*global x and y, instead of moving the player, moves the world and all of it's entities. */
 
 void DrawEntities()
 {

@@ -81,10 +81,12 @@
     <ClCompile Include="src\entity.c" />
     <ClCompile Include="src\game.c" />
     <ClCompile Include="src\graphics.c" />
+    <ClCompile Include="src\wasteland.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity.h" />
     <ClInclude Include="src\graphics.h" />
+    <ClInclude Include="src\wasteland.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,29 +3,48 @@
 
 #include "SDL.h"
 
-#define TAGS			4
-#define TILERES			12
-#define LEVELLENGTH		128
-#define LEVELHEIGHT		128
+#define WASTE_W		128
+#define WASTE_H		128
+#define MAX_ENT		128
+#define MAX_OBJ		128
 
-enum Tags {T_Empty, T_POW1, T_POW2, T_Psycho, T_PsychoA, T_Mrdr, T_mrdrA};
 
-typedef struct MAP_NODE
-{char tags[TAGS];
-char Tiles[TILERES];
-}MapNode_T;
-
-typedef struct LEVEL__STRUCT
+typedef struct INFO_TAG
 {
-	MapNode_T map [LEVELLENGTH];
-	Uint16 length; 
-	/* char bgmusic[20]; */
+	char name[40];
+	Uint16 sx,sy;
+	Uint16 UnitInfo;
+	Uint16 UnitType;
+	char info[40];
+}Tag;
+
+typedef struct LEVEL_STRUCT
+{
+	Uint8	tilemap[WASTE_H][WASTE_W];
+	Uint16	width, height;
+	Tag		infolist[MAX_OBJ];
+	int		infocount;
+	Tag		spawnlist[MAX_ENT];
+	int		spawncount;
+	Uint8	tileset;
+	char	levelname[40];
+	char	bgimage[40];
 }Level;
 
 void LoadLevelSprites();
 void RenderLevel(Level *level);
 void SpawnLevelEnts(Level *level);
-Level *GetCurrentLevel(int Length);
+Level *GetCurrentLevel(int level);
+int MoveCamera(int Length, int Height);
 void UpdateLevel(Level *level);
+
+
+void GenerateLevel(int x, int y);
+void LoadLevel(char *filename);
+void SaveLevel(char *filename);
+void DrawLevel();
+void CloseLevel();
+
+
 
 #endif

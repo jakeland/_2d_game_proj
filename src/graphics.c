@@ -6,7 +6,10 @@
 #define MaxSprites    255
 #define MaxWindows    64
 
+
 SDL_Surface *screen; /*pointer to the draw buffer*/
+SDL_Surface *background;
+SDL_Surface *bgimage;
 SDL_Surface *buffer; /*pointer to the background image buffer*/
 TTF_Font *font;
 SDL_Rect Camera; /*x & y are the coordinates for the background map, w and h are of the screen*/
@@ -27,7 +30,7 @@ ScreenData  S_Data;
 
 void Init_Graphics()
 {
-    Uint32 Vflags = SDL_FULLSCREEN | SDL_ANYFORMAT;
+    Uint32 Vflags = SDL_FULLSCREEN | SDL_ANYFORMAT | SDL_SRCALPHA;
     Uint32 HWflag = 0;
     SDL_Surface *temp;
     S_Data.xres = 1024;
