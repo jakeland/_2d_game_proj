@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "entity.h"
-
+#include "wasteland.h"
 enum FACTION {E_NONE,E_Player,E_Bugs}; /*labeling system for enemies, decides what effects what. */
 extern SDL_Surface *screen;
 extern SDL_Event Event; //This is just so the think functions in this file can read what has been input.
@@ -14,7 +14,6 @@ int NumLives = 3;
 int NumEnts;
 int MOUSEMOVE = 1;
 int lastx,lasty;
-int gx, gy; /*global x and y, instead of moving the player, moves the world and all of it's entities. */
 
 void DrawEntities()
 {
@@ -25,6 +24,7 @@ void DrawEntities()
     {
       if(EntityList[i].shown)
         DrawEntity(&EntityList[i]);
+	  
     }
   }
 }
@@ -51,7 +51,7 @@ void DrawEntity(Entity *ent)
 
 void InitEntityList()
 {
-  int i,j;
+  int i/*, j*/;
   NumEnts = 0;
   for(i = 0;i < MAXENTITIES; i++)
   {
@@ -87,7 +87,7 @@ Entity *NewEntity()
 /*done with an entity, now give back its water..I mean resources*/
 void FreeEntity(Entity *ent)
 {
-  int j;
+  /*int j;*/
   ent->used = 0;
   NumEnts--;
   if(ent->sprite != NULL)FreeSprite(ent->sprite);
@@ -252,5 +252,67 @@ Entity *MakePlayer()
 
 void PlayerThink(Entity *self)
 {
- 
+ /*int  i;*/
+ int numkeys;
+ Uint8 *keys = SDL_GetKeyState(&numkeys);
+ if(self->heat > 0)self->heat--;
+ if(self->busy>0)self->busy--;
+ if(self->health >0)
+ {
+	 if(self->vy!= 0)
+	 {
+		 if(self->vy > 0) self->vy -=2;
+		 else self->vy += 2;
+	 }
+	 if(self->vx!=0)
+	 {
+		if(self->vx > 0) self ->vx -=2;
+		else self->vx += 2;
+	 }
+	self->sx += self->vx;
+    self->sy += self->vy;
+    if(self->sy < 0)self->sy = 0;
+    if(self->sy > screen->h - 64)self->sy = (screen->h-64);
+    if(self->sx > screen->w - self->bbox.w)self->sx = (screen->w - self->bbox.w );
+	if(self->sx < 0)self->sx = 0;
+	 if(keys[SDLK_UP])
+  {
+          MOUSEMOVE = 0;
+          if(self->vy > -15)
+			  {
+				  self->vy -= 5;
+				  Camera.y -= 5;
+				  
+			  }
+  }
+  if(keys[SDLK_DOWN])
+  {
+          MOUSEMOVE = 0;
+          if(self->vy < 15)
+			  {
+				  self->vy += 5;
+				  Camera.y -= 5;
+		  }
+  }
+  if (keys[SDLK_LEFT])
+  {
+	  MOUSEMOVE=0;
+	  if(self->vx > - 15)
+		  {
+			  self->vx -= 5;
+			  Camera.x -= 5;
+		  }  
+ }
+  if (keys[SDLK_RIGHT])
+  {
+	  MOUSEMOVE=0;
+	  if(self->vx <  15)
+		  {
+			  self->vx += 5;
+			  Camera.x -= 5;
+
+	  }
+  }
+ }
 }
+

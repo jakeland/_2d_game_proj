@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include "math.h"
 #include "entity.h"
 #include "graphics.h"
 
@@ -8,12 +9,14 @@
 
 
 SDL_Surface *screen; /*pointer to the draw buffer*/
-SDL_Surface *background;
-SDL_Surface *bgimage;
+SDL_Surface *background; /*pointer to the background image buffer*/
 SDL_Surface *buffer; /*pointer to the background image buffer*/
+SDL_Surface *bgimage;
+
+
 TTF_Font *font;
 SDL_Rect Camera; /*x & y are the coordinates for the background map, w and h are of the screen*/
-SDL_Rect Abs_Camera; /* this just keeps track of how far in the current level we have traveled*/
+
 SPRITE SpriteList[MaxSprites];
 SPRITE WindowList[MaxWindows];
 Entity *Mouse;
@@ -22,6 +25,7 @@ int NumSprites;
 int NumWindows;
 extern int NumLives;
 extern Entity EntityList[MAXENTITIES];
+
 
 /*some data on the video settings that can be useful for a lot of functions*/
 Uint32 rmask,gmask,bmask,amask;
@@ -34,7 +38,7 @@ void Init_Graphics()
     Uint32 HWflag = 0;
     SDL_Surface *temp;
     S_Data.xres = 1024;
-    S_Data.yres = 600;
+    S_Data.yres = 768;
     #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     rmask = 0xff000000;
     gmask = 0x00ff0000;
@@ -52,26 +56,26 @@ void Init_Graphics()
         exit(1);
     }
     atexit(SDL_Quit);
-        if(SDL_VideoModeOK(1024, 600, 32, SDL_FULLSCREEN | SDL_ANYFORMAT | SDL_HWSURFACE))
+        if(SDL_VideoModeOK(1024, 768, 32, SDL_FULLSCREEN | SDL_ANYFORMAT | SDL_HWSURFACE))
     {
         S_Data.xres = 1024;
-        S_Data.yres = 600;
+        S_Data.yres = 768;
         S_Data.depth = 32;
         Vflags = SDL_FULLSCREEN | SDL_ANYFORMAT | SDL_HWSURFACE;
         HWflag = SDL_HWSURFACE;
     }
-    else if(SDL_VideoModeOK(1024, 600, 16, SDL_FULLSCREEN | SDL_ANYFORMAT | SDL_HWSURFACE))
+    else if(SDL_VideoModeOK(1024, 768, 16, SDL_FULLSCREEN | SDL_ANYFORMAT | SDL_HWSURFACE))
     {
         S_Data.xres = 1024;
-        S_Data.yres = 600;
+        S_Data.yres = 768;
         S_Data.depth = 16;
         Vflags = SDL_FULLSCREEN | SDL_ANYFORMAT | SDL_HWSURFACE;
         HWflag = SDL_HWSURFACE;
     }
-    else if(SDL_VideoModeOK(1024, 600, 16, SDL_FULLSCREEN | SDL_ANYFORMAT))
+    else if(SDL_VideoModeOK(1024, 768, 16, SDL_FULLSCREEN | SDL_ANYFORMAT))
     {
         S_Data.xres = 1024;
-        S_Data.yres = 600;
+        S_Data.yres = 768;
         S_Data.depth = 16;
         Vflags = SDL_FULLSCREEN | SDL_ANYFORMAT;
         HWflag = SDL_SWSURFACE;
@@ -82,7 +86,7 @@ void Init_Graphics()
         fprintf(stderr, "Unable to set 1024x600 video: %s\n", SDL_GetError());
         exit(1);
     }
-    temp = SDL_CreateRGBSurface(Vflags, 2048, 600, S_Data.depth,rmask, gmask,bmask,amask);
+    temp = SDL_CreateRGBSurface (Vflags, 2048, 2048, S_Data.depth,rmask, gmask,bmask,amask);
     if(temp == NULL)
 	  {
         fprintf(stderr,"Couldn't initialize Video buffer: %s\n", SDL_GetError());
@@ -90,14 +94,11 @@ void Init_Graphics()
 	  }
     buffer = SDL_DisplayFormat(temp);
     SDL_FreeSurface(temp);
-    Camera.x = 0;
+	Camera.x = 0;
     Camera.y = 0;
     Camera.w = screen->w;
     Camera.h = screen->h;
-    Abs_Camera.x = 0;
-    Abs_Camera.y = 0;
-    Abs_Camera.w = Camera.w;
-    Abs_Camera.h = Camera.h;
+    
     SDL_ShowCursor(SDL_DISABLE);
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,SDL_DEFAULT_REPEAT_INTERVAL);
     if(TTF_Init() == 0)

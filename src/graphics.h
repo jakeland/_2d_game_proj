@@ -86,6 +86,7 @@ void NextFrame();
 void InitMouse();
 void DrawMouse();
 
+
 void DrawFilledRect(int sx,int sy, int sw, int sh, Uint32 Color, SDL_Surface *surface);
 
 #endif
