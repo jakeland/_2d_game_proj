@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
 	
 	/*testlevel = getCurrentLevel(0);*/
-	/*RenderLevel(testlevel);*/
+	RenderLevel();
 	LoadSprite("images/effects.png",16,16,-1,-1,-1);
 	/*window = DisplayBar();*/
 	player = MakePlayer();
@@ -52,9 +52,11 @@ int main(int argc, char *argv[])
 	{
 		
 		UpdateEntities();
+		
 		ResetBuffer();
-		DrawEntities();
 		SetCamera();
+		DrawEntities();
+		
 		NextFrame();
 		SDL_PumpEvents();
 		keys = SDL_GetKeyState(&keyn);
@@ -85,6 +87,6 @@ void Init_All()
 	InitEntityList();
 	InitMouse();
 	
-	/*LoadLevelSprites();*/
+	LoadLevelSprites();
 	atexit(CleanUpAll);
 }

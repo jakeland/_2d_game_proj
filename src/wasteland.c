@@ -1,3 +1,4 @@
+#include <string.h>
 #include <stdlib.h>
 #include "wasteland.h"
 #include "entity.h"
@@ -6,18 +7,45 @@
 
 extern SDL_Surface *buffer;
 extern SDL_Rect Camera;
+extern SDL_Rect offset;
+extern Entity *dude;
+
+SPRITE *LevelSprite;
 
 int CurrentLevel = 0;
 int NumLevel = 2;
 
 extern SDL_Surface *screen;
+extern SDL_Surface *level;
+extern Entity *player;
 
-SDL_Surface *screen;
+
+
+	
+
+void LoadLevelSprites()
+{
+	LevelSprite = LoadSprite("images/backgroundtest.png",2048,2048,-1,-1,-1);
+}
+
+void RenderLevel()
+{
+	SDL_BlitSurface(LevelSprite->image, NULL, level, NULL);
+	 
+	
+}
+
 
 void SetCamera()
 {
 	
+	Camera.x += 1;
 	
+	
+	
+	SDL_BlitSurface(level, &Camera, screen, &offset);
+	
+
 	
 	
 /*keeps the camera within the bounds of the level*/
@@ -25,8 +53,8 @@ void SetCamera()
 	 Camera.x =0;
  if(Camera.y < 0)
 	 Camera.y =0;
- if(Camera.x > LEVEL_LENGTH - Camera.w)
-	 Camera.x = (LEVEL_LENGTH - (Camera.w));
-  if(Camera.y > LEVEL_WIDTH - Camera.h)
-	 Camera.y = (LEVEL_LENGTH - (Camera.h));
+ if(Camera.x > level->w - Camera.w)
+	 Camera.x = (level->w - (Camera.w));
+  if(Camera.y > level->h - Camera.h)
+	 Camera.y = (level->h - (Camera.h));
 }

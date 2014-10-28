@@ -271,47 +271,52 @@ void PlayerThink(Entity *self)
 	 }
 	self->sx += self->vx;
     self->sy += self->vy;
+	
     if(self->sy < 0)self->sy = 0;
-    if(self->sy > screen->h - 64)self->sy = (screen->h-64);
-    if(self->sx > screen->w - self->bbox.w)self->sx = (screen->w - self->bbox.w );
+    if(self->sy > LEVEL_LENGTH - self->bbox.h)self->sy = (LEVEL_LENGTH-self->bbox.h);
+    if(self->sx > LEVEL_WIDTH - self->bbox.w)self->sx = (LEVEL_WIDTH - self->bbox.w );
 	if(self->sx < 0)self->sx = 0;
 	 if(keys[SDLK_UP])
   {
           MOUSEMOVE = 0;
-          if(self->vy > -15)
+          if(self->vy > -5)
 			  {
 				  self->vy -= 5;
-				  Camera.y -= 5;
+				  
 				  
 			  }
+		   
   }
   if(keys[SDLK_DOWN])
   {
           MOUSEMOVE = 0;
-          if(self->vy < 15)
+          if(self->vy < 5)
 			  {
 				  self->vy += 5;
-				  Camera.y -= 5;
+				  
 		  }
+		  
   }
   if (keys[SDLK_LEFT])
   {
 	  MOUSEMOVE=0;
-	  if(self->vx > - 15)
+	  if(self->vx > - 5)
 		  {
 			  self->vx -= 5;
-			  Camera.x -= 5;
+			  
 		  }  
+	  
  }
   if (keys[SDLK_RIGHT])
   {
 	  MOUSEMOVE=0;
-	  if(self->vx <  15)
+	  if(self->vx <  5)
 		  {
 			  self->vx += 5;
-			  Camera.x -= 5;
+			   
 
 	  }
+	 
   }
  }
 }

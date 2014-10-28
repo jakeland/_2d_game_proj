@@ -9,13 +9,14 @@
 
 
 SDL_Surface *screen; /*pointer to the draw buffer*/
-SDL_Surface *background; /*pointer to the background image buffer*/
+SDL_Surface *level; /*pointer to the background image buffer*/
 SDL_Surface *buffer; /*pointer to the background image buffer*/
 SDL_Surface *bgimage;
 
 
 TTF_Font *font;
 SDL_Rect Camera; /*x & y are the coordinates for the background map, w and h are of the screen*/
+SDL_Rect offset;
 
 SPRITE SpriteList[MaxSprites];
 SPRITE WindowList[MaxWindows];
@@ -86,7 +87,7 @@ void Init_Graphics()
         fprintf(stderr, "Unable to set 1024x600 video: %s\n", SDL_GetError());
         exit(1);
     }
-    temp = SDL_CreateRGBSurface (Vflags, 2048, 2048, S_Data.depth,rmask, gmask,bmask,amask);
+    temp = SDL_CreateRGBSurface (Vflags, 1024, 768, S_Data.depth,rmask, gmask,bmask,amask);
     if(temp == NULL)
 	  {
         fprintf(stderr,"Couldn't initialize Video buffer: %s\n", SDL_GetError());
@@ -94,8 +95,21 @@ void Init_Graphics()
 	  }
     buffer = SDL_DisplayFormat(temp);
     SDL_FreeSurface(temp);
+	
+	temp = SDL_CreateRGBSurface (Vflags, 2048, 2048, S_Data.depth,rmask, gmask,bmask,amask);
+    if(temp == NULL)
+	  {
+        fprintf(stderr,"Couldn't initialize Level buffer: %s\n", SDL_GetError());
+        exit(1);
+	  }
+    level = SDL_DisplayFormat(temp);
+    SDL_FreeSurface(temp);
+	
 	Camera.x = 0;
     Camera.y = 0;
+	offset.x = 0;
+	offset.y = 0;
+	
     Camera.w = screen->w;
     Camera.h = screen->h;
     
@@ -119,7 +133,10 @@ void Init_Graphics()
 
 void ResetBuffer()
 {
-    SDL_BlitSurface(buffer,&Camera,screen,NULL);
+	
+	
+	
+	SDL_BlitSurface(buffer,&Camera,screen, NULL);
 }
 
 /*
