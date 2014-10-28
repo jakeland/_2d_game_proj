@@ -7,6 +7,9 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+
+
+
 typedef struct LEVEL_STRUCT
 {
 	Uint16 length;

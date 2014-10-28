@@ -17,7 +17,7 @@ SDL_Surface *bgimage;
 TTF_Font *font;
 SDL_Rect Camera; /*x & y are the coordinates for the background map, w and h are of the screen*/
 SDL_Rect offset;
-
+SDL_Rect vcam;
 SPRITE SpriteList[MaxSprites];
 SPRITE WindowList[MaxWindows];
 Entity *Mouse;
@@ -107,6 +107,9 @@ void Init_Graphics()
 	
 	Camera.x = 0;
     Camera.y = 0;
+	vcam.x = 0;
+	vcam.y = 0;
+
 	offset.x = 0;
 	offset.y = 0;
 	

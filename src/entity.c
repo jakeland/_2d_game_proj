@@ -258,7 +258,7 @@ void PlayerThink(Entity *self)
  if(self->heat > 0)self->heat--;
  if(self->busy>0)self->busy--;
  if(self->health >0)
- {
+ {/*
 	 if(self->vy!= 0)
 	 {
 		 if(self->vy > 0) self->vy -=2;
@@ -318,6 +318,8 @@ void PlayerThink(Entity *self)
 	  }
 	 
   }
+  */
  }
+ 
 }
 
