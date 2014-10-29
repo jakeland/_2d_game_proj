@@ -66,5 +66,5 @@ void PlayerThink(Entity *self);
 Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vx, int vy, int damage, int type, int enemy);
 void ShotgunThink(Entity *self);
 void PistolThink(Entity *self);
-
+void AssaultThink(Entity *self);
 #endif

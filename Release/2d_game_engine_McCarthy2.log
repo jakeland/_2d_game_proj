@@ -1,4 +1,4 @@
-﻿Build started 10/29/2014 4:49:16 PM.
+﻿Build started 10/29/2014 5:25:59 PM.
      1>Project "C:\Users\Jakeland\Documents\_project\2d_game_engine_McCarthy2\2d_game_engine_McCarthy2.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\2d_game_engine_McCarthy2.lastbuildstate".
@@ -85,7 +85,7 @@
          Release\graphics.obj
          Release\wasteland.obj
          Generating code
-     1>c:\users\jakeland\documents\_project\2d_game_engine_mccarthy2\src\entity.c(268): warning C4715: 'SpawnBullet' : not all control paths return a value
+     1>c:\users\jakeland\documents\_project\2d_game_engine_mccarthy2\src\entity.c(276): warning C4715: 'SpawnBullet' : not all control paths return a value
          Finished generating code
          2d_game_engine_McCarthy2.vcxproj -> C:\Users\Jakeland\Documents\_project\2d_game_engine_McCarthy2\.\2d_game_engine_McCarthy2.exe
        Manifest:
@@ -97,4 +97,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.58
+Time Elapsed 00:00:00.57

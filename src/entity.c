@@ -255,6 +255,14 @@ Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vy, int vx, int damage, i
 		blast->bbox.y = 5;
 		blast->bbox.w = 3;
 		blast->bbox.h  = 2;
+	case Wp_Assault:
+		blast->frame = 9;
+		blast->frame = ST_IDLE;
+		blast->think = AssaultThink;
+		blast->bbox.x= 6;
+		blast->bbox.y = 5;
+		blast->bbox.w = 3;
+		blast->bbox.h  = 2;
 	break;
 	default:
 		blast->frame = 6;
@@ -268,6 +276,42 @@ Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vy, int vx, int damage, i
 }
 
 void ShotgunThink(Entity *self)
+{
+  Entity *target;
+    /*Update position*/
+  self->sx += self->vx;
+  self->sy += self->vy;
+    /*Check for colision if not already dying*/
+  if(self->sx > level->w || self->sx < 0 || self->sy < 0 ||self->sy > level->h)
+  { //We have gone off the map, there be dragons here, so lets get rid of us.
+    self->shown = 0;
+    FreeEntity(self);
+    return;
+  }
+  if(self->state != ST_DYING)
+  {
+    target = HitEnt(self);
+    if(target != NULL)
+    {
+      self->state = ST_DYING;
+      self->vx = 0;
+      self->vy = 0;
+      target->health -= self->health;
+      target->vx += self->vx * self->health / 2;
+	  if(target->health < 0)self->health = target->health * -1;
+    }
+  }
+  switch(self->state)
+  {
+    case ST_DYING:
+      self->frame++;
+      if(self->frame >= 10)FreeEntity(self);
+    break;
+  }
+}
+
+
+void AssaultThink(Entity *self)
 {
   Entity *target;
     /*Update position*/
@@ -371,14 +415,19 @@ void PlayerThink(Entity *self)
 	 self->facing = F_RIGHT;
 	 
   }
-
+  if (keys[SDLK_d])
+  {
+	  if(self-> state == ST_IDLE)
+	  {
+		  self->state = ST_FIRE1;
+	  }
+ }
   if (keys[SDLK_a])
   {
 		if(self->state == ST_IDLE)
 		{
 			self->state = ST_FIRE2;
-			self->frame = 5;
-
+			
 		}
 
   }
@@ -404,7 +453,7 @@ void PlayerThink(Entity *self)
       if(self->frame >= 13)
       {
         self->state = ST_DEAD;
-        self->delay = 5;
+        self->delay = 10;
       }
       self->frame++;
     break;
@@ -425,16 +474,49 @@ void PlayerThink(Entity *self)
 	  break;
 	  }
 	  break;
+  case ST_FIRE1:
+	  {
+	  if(self->frame >= 0)
+	  {
+		  switch(self->facing)
+		  {
+  case F_RIGHT:
+		  SpawnBullet(self, self->sx + 10, self->sy + 10, 0,8,2, Wp_Assault,E_Bugs);
+		  break;
+  case F_UP:
+		  SpawnBullet(self, self->sx + 10, self->sy + 10, -8,0,2, Wp_Assault,E_Bugs);
+		  break;
+  case F_LEFT:
+		  SpawnBullet(self, self->sx + 10, self->sy + 10, 0,-8,2, Wp_Assault,E_Bugs);
+		  break;
+  case F_DOWN:
+		  SpawnBullet(self, self->sx + 10, self->sy + 10, 8,0,2, Wp_Assault,E_Bugs);
+		  break;
+		  }
+		  
+	  }
+	  break;
+	  }
   case ST_FIRE2:
-      if(self->frame >= 0)
+	   if(self->delay > 0)
+      {
+        self->delay--;
+        if(self->delay <= 0)
+        {
+          self->delay = 0;
+          
+        }
+      }
+      else if(self->frame >= 0)
       {
 			switch (self->facing)
 			{
 				case F_UP:
-				{
+				{	
 					SpawnBullet(self,self->sx + 10,self->sy + 10,-5,0,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 10,-3,2,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 10,-3,-2,3,Wp_Shotgun,E_Bugs);
+					self->delay = 20;
 					break;
 				}
 			  case F_DOWN:
@@ -443,6 +525,7 @@ void PlayerThink(Entity *self)
 					SpawnBullet(self,self->sx + 10,self->sy + 15,5,0,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 15,3,2,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 15,3,-2,3,Wp_Shotgun,E_Bugs);
+					self->delay = 20;
 					break;
 					
 					
@@ -452,6 +535,7 @@ void PlayerThink(Entity *self)
 					SpawnBullet(self,self->sx + 10,self->sy + 15,-2,3,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 15,0,5,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 15,2,3,3,Wp_Shotgun,E_Bugs);
+					self->delay = 20;
 					 break;
           
 					
@@ -461,6 +545,7 @@ void PlayerThink(Entity *self)
 					SpawnBullet(self,self->sx + 10,self->sy + 15,-2,-3,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 15,0,-5,3,Wp_Shotgun,E_Bugs);
 					SpawnBullet(self,self->sx + 10,self->sy + 15,2,-3,3,Wp_Shotgun,E_Bugs);
+					self->delay = 20;
 					
 					break;
 				}
