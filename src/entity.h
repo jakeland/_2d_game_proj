@@ -63,21 +63,8 @@ int GetNextCount(Entity *self);
 
 Entity *MakePlayer();
 void PlayerThink(Entity *self);
-Entity *FireMissile(Entity *Owner,int sx,int sy,int vx,int vy,int damage,int enemy);
-void MissileThink(Entity *self);
-Entity *SpawnBlast(Entity *Owner,int sx,int sy,int vx,int vy,int damage,int type,int enemy);
-void BlueBlastThink(Entity *self);
-void RedBlastThink(Entity *self);
-void PurpleBlastThink(Entity *self);
-Entity *SpawnBug(int sx,int sy,int type);
-void BugThink(Entity *self);
-void AttackBugThink(Entity *self);
-Entity *DropMissile(int sx,int sy,int vx,int vy);
-void MissilePickup(Entity *self);
-Entity *DropPowerUp(int sx,int sy,int vx,int vy,int level);
-void PowerPickup(Entity *self);
-Entity *SpawnMantid(int sx,int sy,int type);
-void MantThink(Entity *self);
-void AttackMantThink(Entity *self);
+Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vx, int vy, int damage, int type, int enemy);
+void ShotgunThink(Entity *self);
+void PistolThink(Entity *self);
 
 #endif

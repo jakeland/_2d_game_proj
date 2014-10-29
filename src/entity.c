@@ -4,6 +4,7 @@
 #include "wasteland.h"
 enum FACTION {E_NONE,E_Player,E_Bugs}; /*labeling system for enemies, decides what effects what. */
 extern SDL_Surface *screen;
+extern SDL_Surface *level;
 extern SDL_Event Event; //This is just so the think functions in this file can read what has been input.
 extern SDL_Rect Camera;
 extern int NumLevels;
@@ -15,6 +16,7 @@ int NumEnts;
 int MOUSEMOVE = 1;
 int lastx,lasty;
 
+enum WeaponType {Wp_Shotgun, Wp_Pistol, Wp_Assault, Wp_BuzzAx, Wp_Sniper};
 void DrawEntities()
 {
   int i;
@@ -218,6 +220,93 @@ Entity *HitEnt(Entity *self)
   return NULL;
 }
 
+Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vy, int vx, int damage, int WeaponType, int enemy)
+{
+	Entity *blast;
+	blast = NewEntity();
+	if(blast == NULL) return blast;
+	blast->owner = Owner;
+	blast->sprite = LoadSprite("images/effects.png",16,16,-1,-1,-1);
+	
+	blast->shown =1;
+	blast->health = damage;
+	blast->sx = sx;
+	blast->sy = sy;
+	blast->vy = vy;
+	blast->vx = vx;
+	
+	blast->enemy = enemy;
+	switch(WeaponType)
+	{
+	case Wp_Shotgun:
+		blast->frame = 6;
+		blast->state = ST_IDLE;
+		blast->think = ShotgunThink;
+		blast->bbox.x= 6;
+		blast->bbox.y = 6;
+		blast->bbox.w = 5;
+		blast->bbox.h  = 5;
+	break;
+	case Wp_Pistol:
+		blast->frame = 8;
+		blast->frame = ST_IDLE;
+		blast->think = PistolThink;
+		blast->bbox.x= 6;
+		blast->bbox.y = 5;
+		blast->bbox.w = 3;
+		blast->bbox.h  = 2;
+	break;
+	default:
+		blast->frame = 6;
+		blast->state = ST_IDLE;
+		blast->think = PistolThink;
+		blast->bbox.x = 6;
+		blast->bbox.y = 5;
+		blast->bbox.w = 3;
+		blast->bbox.h = 2;
+	};
+}
+
+void ShotgunThink(Entity *self)
+{
+  Entity *target;
+    /*Update position*/
+  self->sx += self->vx;
+  self->sy += self->vy;
+    /*Check for colision if not already dying*/
+  if(self->sx > level->w || self->sx < 0 || self->sy < 0 ||self->sy > level->h)
+  { //We have gone off the map, there be dragons here, so lets get rid of us.
+    self->shown = 0;
+    FreeEntity(self);
+    return;
+  }
+  if(self->state != ST_DYING)
+  {
+    target = HitEnt(self);
+    if(target != NULL)
+    {
+      self->state = ST_DYING;
+      self->vx = 0;
+      self->vy = 0;
+      target->health -= self->health;
+      target->vx += self->vx * self->health / 2;
+    }
+  }
+  switch(self->state)
+  {
+    case ST_DYING:
+      self->frame++;
+      if(self->frame >= 10)FreeEntity(self);
+    break;
+  }
+}
+
+
+
+void PistolThink(Entity *self){
+
+}
+
 Entity *MakePlayer()
 {
   Entity *dude;
@@ -264,22 +353,129 @@ void PlayerThink(Entity *self)
 	 if(keys[SDLK_UP])
   {
        self->facing = F_UP;  
-	   	   
+	     
   }
   if(keys[SDLK_DOWN])
   {
       self->facing = F_DOWN;    
-		  
+		 
   }
   if (keys[SDLK_LEFT])
   {
 	  
 	  self->facing = F_LEFT;
+	  
  }
   if (keys[SDLK_RIGHT])
   {
 	 self->facing = F_RIGHT;
+	 
   }
+
+  if (keys[SDLK_a])
+  {
+		if(self->state == ST_IDLE)
+		{
+			self->state = ST_FIRE2;
+			self->frame = 5;
+
+		}
+
+  }
+  switch(self->state)
+  {
+  case ST_DEAD:
+	  self->frame = 13;
+	  self->shown = 0;
+	  if(self->delay <= 0)
+	  {
+		  if(NumLives > 0)
+		  {
+			  self->health = self->healthmax;
+			  self->state = ST_IDLE;
+			  self->shown = 1;
+			  NumLives--;
+		  }
+		  else exit (1);
+	  }
+	  else self->delay --;
+	break;
+   case ST_DYING:
+      if(self->frame >= 13)
+      {
+        self->state = ST_DEAD;
+        self->delay = 5;
+      }
+      self->frame++;
+    break;
+  case ST_IDLE:
+	  switch(self->facing)
+	  {
+	  case F_UP:
+	  self->frame = 0;
+	  break;
+	  case F_DOWN:
+	  self->frame = 4;
+	  break;
+	  case F_LEFT:
+	  self->frame = 8;
+	  break;
+	  case F_RIGHT:
+	  self->frame = 12;
+	  break;
+	  }
+	  break;
+  case ST_FIRE2:
+      if(self->frame >= 0)
+      {
+			switch (self->facing)
+			{
+				case F_UP:
+				{
+					SpawnBullet(self,self->sx + 10,self->sy + 10,-5,0,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 10,-3,2,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 10,-3,-2,3,Wp_Shotgun,E_Bugs);
+					break;
+				}
+			  case F_DOWN:
+				{
+					
+					SpawnBullet(self,self->sx + 10,self->sy + 15,5,0,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 15,3,2,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 15,3,-2,3,Wp_Shotgun,E_Bugs);
+					break;
+					
+					
+				}
+			 case F_RIGHT:
+				{
+					SpawnBullet(self,self->sx + 10,self->sy + 15,-2,3,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 15,0,5,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 15,2,3,3,Wp_Shotgun,E_Bugs);
+					 break;
+          
+					
+				}
+			case F_LEFT:
+				{
+					SpawnBullet(self,self->sx + 10,self->sy + 15,-2,-3,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 15,0,-5,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 15,2,-3,3,Wp_Shotgun,E_Bugs);
+					
+					break;
+				}
+			}
+				/*spawn the little blue bullet*/
+				self->state = ST_IDLE;
+			 
+			}
+      else self->frame++;
+    break;
+    
+  }
+
+
+
   
  }
  
