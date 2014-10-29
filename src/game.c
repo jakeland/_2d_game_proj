@@ -87,6 +87,6 @@ void Init_All()
 	InitEntityList();
 	InitMouse();
 	
-	LoadLevelSprites();
+	LoadLevelSprite();
 	atexit(CleanUpAll);
 }

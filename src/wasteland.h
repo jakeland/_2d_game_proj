@@ -17,6 +17,7 @@ typedef struct LEVEL_STRUCT
 
 }Level;
 
+
 void LoadLevelSprite();
 void SetCamera();
 void RenderLevel();

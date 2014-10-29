@@ -1,9 +1,9 @@
-﻿Build started 10/28/2014 7:25:04 AM.
+﻿Build started 10/29/2014 1:58:58 PM.
      1>Project "C:\Users\Jakeland\Documents\_project\2d_game_engine_McCarthy2\2d_game_engine_McCarthy2.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\2d_game_engine_McCarthy2.lastbuildstate".
        InitializeBuildStatus:
-         Touching "Release\2d_game_engine_McCarthy2.unsuccessfulbuild".
+         Creating "Release\2d_game_engine_McCarthy2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt src\entity.c src\game.c src\graphics.c src\wasteland.c
          entity.c
@@ -13,7 +13,6 @@
      1>src\game.c(33): warning C4101: 'temp' : unreferenced local variable
      1>src\game.c(35): warning C4101: 'tile' : unreferenced local variable
      1>src\game.c(34): warning C4101: 'buffer' : unreferenced local variable
-     1>src\game.c(90): warning C4013: 'LoadLevelSprites' undefined; assuming extern returning int
      1>src\game.c(91): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
          graphics.c
      1>src\graphics.c(344): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
@@ -97,4 +96,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.52
+Time Elapsed 00:00:00.61

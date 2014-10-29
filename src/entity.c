@@ -230,12 +230,14 @@ Entity *MakePlayer()
   dude->sound[2] = LoadSound("sounds/xplode.wav",MIX_MAX_VOLUME/5);
   dude->sound[3] = LoadSound("sounds/explode.wav",MIX_MAX_VOLUME/5);
   */
+  dude->facing = 0;
   dude->bbox.x = 3;
   dude->bbox.y = 7;
   dude->bbox.w = 21;
   dude->bbox.h = 12;
   dude->weaplevel = 0;
-  dude->frame = 0;
+  dude->currentweapon = 0;
+  dude->frame = F_DOWN;
   dude->sx = screen->w/2;
   dude->sy = screen->h/2;
   dude->shown = 1;
@@ -258,67 +260,27 @@ void PlayerThink(Entity *self)
  if(self->heat > 0)self->heat--;
  if(self->busy>0)self->busy--;
  if(self->health >0)
- {/*
-	 if(self->vy!= 0)
-	 {
-		 if(self->vy > 0) self->vy -=2;
-		 else self->vy += 2;
-	 }
-	 if(self->vx!=0)
-	 {
-		if(self->vx > 0) self ->vx -=2;
-		else self->vx += 2;
-	 }
-	self->sx += self->vx;
-    self->sy += self->vy;
-	
-    if(self->sy < 0)self->sy = 0;
-    if(self->sy > LEVEL_LENGTH - self->bbox.h)self->sy = (LEVEL_LENGTH-self->bbox.h);
-    if(self->sx > LEVEL_WIDTH - self->bbox.w)self->sx = (LEVEL_WIDTH - self->bbox.w );
-	if(self->sx < 0)self->sx = 0;
+ {
 	 if(keys[SDLK_UP])
   {
-          MOUSEMOVE = 0;
-          if(self->vy > -5)
-			  {
-				  self->vy -= 5;
-				  
-				  
-			  }
-		   
+       self->facing = F_UP;  
+	   	   
   }
   if(keys[SDLK_DOWN])
   {
-          MOUSEMOVE = 0;
-          if(self->vy < 5)
-			  {
-				  self->vy += 5;
-				  
-		  }
+      self->facing = F_DOWN;    
 		  
   }
   if (keys[SDLK_LEFT])
   {
-	  MOUSEMOVE=0;
-	  if(self->vx > - 5)
-		  {
-			  self->vx -= 5;
-			  
-		  }  
 	  
+	  self->facing = F_LEFT;
  }
   if (keys[SDLK_RIGHT])
   {
-	  MOUSEMOVE=0;
-	  if(self->vx <  5)
-		  {
-			  self->vx += 5;
-			   
-
-	  }
-	 
+	 self->facing = F_RIGHT;
   }
-  */
+  
  }
  
 }

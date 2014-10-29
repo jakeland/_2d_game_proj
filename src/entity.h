@@ -14,8 +14,8 @@
 #define MAXSTATES     20
 #define SOUNDSPERENT  4
 
-enum STATES {ST_IDLE,ST_FIRE1,ST_FIRE2,ST_FIRE3,ST_DYING,ST_DEAD};
-
+enum STATES {ST_IDLE,ST_FIRE1,ST_FIRE2,ST_FIRE3, ST_POWER1, ST_POWER2, ST_POWER3, ST_DYING,ST_DEAD};
+enum FACING {F_UP, F_DOWN, F_LEFT, F_RIGHT};
 typedef struct ENTITY_T
 {
   SPRITE *sprite;
@@ -26,6 +26,9 @@ typedef struct ENTITY_T
   int shown; /*if 1 then it will be rendered when it is on screen*/
   int used; /*used is for keeping track of what entities are free and should NEVER be touched.*/
   int frame;
+  /*would like to make this it's own entity class, but as I don't have time for that it will have to wait*/
+  int currentweapon; /*0,1,2*/
+  int facing; /* 0, 1, 2 ,3 */
   int count;  /*used for animation*/
   int state;  /*making each entity a finite state machine.*/
   int sx,sy; /*sprite's coordinates*/

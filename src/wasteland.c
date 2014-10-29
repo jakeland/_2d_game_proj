@@ -25,7 +25,7 @@ extern Entity *player;
 
 	
 
-void LoadLevelSprites()
+void LoadLevelSprite()
 {
 	LevelSprite = LoadSprite("images/backgroundtest.png",2048,2048,-1,-1,-1);
 }
@@ -71,7 +71,7 @@ void SetCamera()
 	 if(keys[SDLK_UP])
   {
          
-          if(vcam.y > -5)
+          if(vcam.y > -15)
 			  {
 				 vcam.y -= 5;
 				  
@@ -82,7 +82,7 @@ void SetCamera()
   if(keys[SDLK_DOWN])
   {
           
-          if(vcam.y < 5)
+          if(vcam.y < 15)
 			  {
 				  vcam.y += 5;
 				  
@@ -92,7 +92,7 @@ void SetCamera()
   if (keys[SDLK_LEFT])
   {
 	  
-	  if(vcam.x > - 5)
+	  if(vcam.x > - 15)
 		  {
 			 vcam.x -= 5;
 			  
@@ -102,7 +102,7 @@ void SetCamera()
   if (keys[SDLK_RIGHT])
   {
 	  
-	  if(vcam.x <  5)
+	  if(vcam.x <  15)
 		  {
 			  vcam.x += 5;
 			   
