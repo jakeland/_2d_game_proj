@@ -307,6 +307,7 @@ void ShotgunThink(Entity *self)
       self->frame++;
       if(self->frame >= 10)FreeEntity(self);
     break;
+
   }
 }
 
@@ -397,23 +398,26 @@ void PlayerThink(Entity *self)
 	 if(keys[SDLK_UP])
   {
        self->facing = F_UP;  
+	   self->vy-=2;
 	     
   }
   if(keys[SDLK_DOWN])
   {
       self->facing = F_DOWN;    
-		 
+	  self->vy+=2;
+	     
   }
   if (keys[SDLK_LEFT])
   {
 	  
 	  self->facing = F_LEFT;
-	  
+	    self->vx-=2;
+	     
  }
   if (keys[SDLK_RIGHT])
   {
 	 self->facing = F_RIGHT;
-	 
+	 self->vx+=2;
   }
   if (keys[SDLK_d])
   {
@@ -431,10 +435,24 @@ void PlayerThink(Entity *self)
 		}
 
   }
+  self->sx += self->vx;
+    self->sy += self->vy;
+
+	if (self->vx>0)
+		self->vx -=2;
+	if (self->vy>0)
+		self->vy -=2;
+	if (self->vx<0)
+		self->vx +=2;
+	if (self->vy<0)
+		self->vy +=2;
+    if(self->sy < 0)self->sy = 0;
+
   switch(self->state)
   {
+
   case ST_DEAD:
-	  self->frame = 13;
+	  self->frame =13;
 	  self->shown = 0;
 	  if(self->delay <= 0)
 	  {
@@ -476,21 +494,34 @@ void PlayerThink(Entity *self)
 	  break;
   case ST_FIRE1:
 	  {
-	  if(self->frame >= 0)
+	   if(self->delay > 0)
+      {
+        self->delay--;
+        if(self->delay <= 0)
+        {
+          self->delay = 0;
+          
+        }
+      }
+      else if(self->frame >= 0)
 	  {
 		  switch(self->facing)
 		  {
   case F_RIGHT:
 		  SpawnBullet(self, self->sx + 10, self->sy + 10, 0,8,2, Wp_Assault,E_Bugs);
+		  self->delay=14;
 		  break;
   case F_UP:
 		  SpawnBullet(self, self->sx + 10, self->sy + 10, -8,0,2, Wp_Assault,E_Bugs);
+		  self->delay=14;
 		  break;
   case F_LEFT:
 		  SpawnBullet(self, self->sx + 10, self->sy + 10, 0,-8,2, Wp_Assault,E_Bugs);
+		  self->delay=14;
 		  break;
   case F_DOWN:
 		  SpawnBullet(self, self->sx + 10, self->sy + 10, 8,0,2, Wp_Assault,E_Bugs);
+		  self->delay=14;
 		  break;
 		  }
 		  
