@@ -48,7 +48,7 @@ void UpdateEntities()
 
 void DrawEntity(Entity *ent)
 {
-  DrawSprite(ent->sprite,screen,ent->sx,ent->sy,ent->frame);
+  DrawSprite(ent->sprite,screen,ent->sx-Camera.x,ent->sy-Camera.y,ent->frame);
 }
 
 void InitEntityList()
@@ -367,13 +367,15 @@ Entity *MakePlayer()
   dude->facing = 0;
   dude->bbox.x = 3;
   dude->bbox.y = 7;
-  dude->bbox.w = 21;
-  dude->bbox.h = 12;
+  dude->bbox.w = 22;
+  dude->bbox.h = 15;
   dude->weaplevel = 0;
   dude->currentweapon = 0;
   dude->frame = F_DOWN;
-  dude->sx = screen->w/2;
-  dude->sy = screen->h/2;
+  dude->sx =200;
+  
+  dude->sy = 10;
+
   dude->shown = 1;
   dude->state = ST_IDLE;
   dude->think = PlayerThink;
@@ -447,6 +449,9 @@ void PlayerThink(Entity *self)
 	if (self->vy<0)
 		self->vy +=2;
     if(self->sy < 0)self->sy = 0;
+	if(self->sx <0)self->sx = 0;
+	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->sy;
+	if(self->sy > level->h-self->bbox.h)self->sy =level->h-self->sx;
 
   switch(self->state)
   {

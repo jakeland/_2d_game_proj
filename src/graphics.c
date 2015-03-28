@@ -110,6 +110,10 @@ void Init_Graphics()
 	vcam.x = 0;
 	vcam.y = 0;
 
+	
+	level->h=2048;
+	level->w=2048;
+
 	offset.x = 0;
 	offset.y = 0;
 	
@@ -140,6 +144,7 @@ void ResetBuffer()
 	
 	
 	SDL_BlitSurface(buffer,&Camera,screen, NULL);
+	SDL_BlitSurface(level,&Camera,screen,NULL);
 }
 
 /*
