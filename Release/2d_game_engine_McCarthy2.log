@@ -1,4 +1,4 @@
-﻿Build started 3/28/2015 1:53:27 PM.
+﻿Build started 4/7/2015 11:22:42 AM.
      1>Project "C:\Users\Jakeland\Documents\2D_LATE\2d_game_engine_McCarthy2.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\2d_game_engine_McCarthy2.lastbuildstate".
@@ -97,4 +97,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.50
+Time Elapsed 00:00:00.70

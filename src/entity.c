@@ -450,8 +450,8 @@ void PlayerThink(Entity *self)
 		self->vy +=2;
     if(self->sy < 0)self->sy = 0;
 	if(self->sx <0)self->sx = 0;
-	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->sy;
-	if(self->sy > level->h-self->bbox.h)self->sy =level->h-self->sx;
+	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->bbox.w;
+	if(self->sy > level->h-self->bbox.h)self->sy =level->h-self->bbox.h;
 
   switch(self->state)
   {
