@@ -61,6 +61,7 @@ void UpdateDisplayBar(Entity *player,SPRITE *window);
 
 int GetNextCount(Entity *self);
 
+void SetFloor();
 Entity *MakePlayer();
 void PlayerThink(Entity *self);
 Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vx, int vy, int damage, int type, int enemy);

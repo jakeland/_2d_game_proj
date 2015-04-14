@@ -16,7 +16,23 @@ int NumEnts;
 int MOUSEMOVE = 1;
 int lastx,lasty;
 
+SDL_Rect level1_floor;
+
+
 enum WeaponType {Wp_Shotgun, Wp_Pistol, Wp_Assault, Wp_BuzzAx, Wp_Sniper};
+
+void SetFloor(){
+level1_floor.h = 20;
+level1_floor.w = 2048;
+level1_floor.x = 0;
+level1_floor.y =  2018;
+
+
+}
+
+
+
+
 void DrawEntities()
 {
   int i;
@@ -168,6 +184,8 @@ Entity *HitNextEnt(Entity *self,Entity *target)
   }
   return NULL;
 }
+
+
 
 Entity *GetClosestTarget(Entity *self)
 {
@@ -352,6 +370,21 @@ void PistolThink(Entity *self){
 
 }
 
+Entity *MakePlatform()
+{
+	Entity *platform;
+	platform = NewEntity();
+	if  (platform == NULL)
+	{
+		return platform;
+	}
+
+
+
+}
+
+
+
 Entity *MakePlayer()
 {
   Entity *dude;
@@ -387,6 +420,8 @@ Entity *MakePlayer()
   Player = dude;
   return dude;
 }
+
+
 
 void PlayerThink(Entity *self)
 {
@@ -529,8 +564,11 @@ void PlayerThink(Entity *self)
 		  self->delay=14;
 		  break;
 		  }
+		self->state = ST_IDLE;
+
 		  
 	  }
+	  else self->frame++;
 	  break;
 	  }
   case ST_FIRE2:

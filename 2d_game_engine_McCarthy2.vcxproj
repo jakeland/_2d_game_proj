@@ -42,8 +42,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Jakeland\Documents\2D_LATE\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Jakeland\Documents\2D_LATE\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Jakeland\Documents\___2D_Proj_Late\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jakeland\Documents\___2D_Proj_Late\lib;$(LibraryPath)</LibraryPath>
     <OutDir>.\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
