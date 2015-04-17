@@ -35,7 +35,8 @@ typedef struct ENTITY_T
   int animframe;  /*specifies how many global frames go by before the sprite frame is animated.*/
   int busy;   /*used for some think functions when issuing a command, if its busy with an animation it won't bother the sprite*/
   int delay;
-  int vx,vy;  /*vector values*/
+  int vx,vy; /*vector values*/
+  int gravity; /*0 = No, 1 = yes*/
   /*an entity can have up to MAXSTATES states.  Each state shows the fram it Ends on, the previous state marks
     the begining.*/
   int framestates[MAXSTATES];
@@ -61,8 +62,11 @@ void UpdateDisplayBar(Entity *player,SPRITE *window);
 
 int GetNextCount(Entity *self);
 
+void DrawPlatform(int x, int y, int height, int width);
 void SetFloor();
-Entity *MakePlayer();
+Entity *MakePlayer(); 
+Entity *MakePok();
+Entity *MakePlatform(int x, int y, int height, int width);
 void PlayerThink(Entity *self);
 Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vx, int vy, int damage, int type, int enemy);
 void ShotgunThink(Entity *self);

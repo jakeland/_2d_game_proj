@@ -18,11 +18,11 @@ extern SDL_Surface *level;
 extern SDL_Rect Camera;
 extern SDL_Rect level1_floor;
 extern SDL_Surface *clipmask;
+
+
 int drawents = 1, drawboxes =0;
 
 
-SDL_Joystick *joy;
-Uint8 *keys;
 
 SDL_Joystick *joy;
 Uint8 *keys;
@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
 	int done;
 	int keyn;
 	Entity *player;
-	
+	Entity *oddish;
+	Entity *platform;
 	Uint8 *keys;
 	
 	Init_All();
@@ -46,11 +47,13 @@ int main(int argc, char *argv[])
 	/*testlevel = getCurrentLevel(0);*/
 	
 	RenderLevel();
-	SDL_FillRect(level, &level1_floor, 8);
+	
 
 	LoadSprite("images/effects.png",16,16,-1,-1,-1);
 	/*window = DisplayBar();*/
+	platform = MakePlatform(0,2014, 2048, 20);
 	player = MakePlayer();
+	oddish = MakePok();
 	done = 0;
 	do
 	{

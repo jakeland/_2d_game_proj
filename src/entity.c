@@ -11,6 +11,9 @@ extern int NumLevels;
 extern int CurrentLevel;
 Entity EntityList[MAXENTITIES];
 Entity *Player;
+SDL_Rect temp;
+Entity *platform;
+Entity *oddish;
 int NumLives = 3;
 int NumEnts;
 int MOUSEMOVE = 1;
@@ -42,7 +45,7 @@ void DrawEntities()
     {
       if(EntityList[i].shown)
         DrawEntity(&EntityList[i]);
-	  
+		
     }
   }
 }
@@ -57,6 +60,7 @@ void UpdateEntities()
       if(EntityList[i].think != NULL)
       {
         EntityList[i].think(&EntityList[i]);
+
       }
     }
   }
@@ -65,6 +69,15 @@ void UpdateEntities()
 void DrawEntity(Entity *ent)
 {
   DrawSprite(ent->sprite,screen,ent->sx-Camera.x,ent->sy-Camera.y,ent->frame);
+}
+
+void DrawPlatform(int x, int y, int w, int h){
+	
+	temp.x = x;
+	temp.y = y;
+	temp.h = h;
+	temp.w = w;
+	SDL_FillRect(level, &temp, 8);
 }
 
 void InitEntityList()
@@ -370,7 +383,7 @@ void PistolThink(Entity *self){
 
 }
 
-Entity *MakePlatform()
+Entity *MakePlatform(int x, int y,int width, int height)
 {
 	Entity *platform;
 	platform = NewEntity();
@@ -378,11 +391,53 @@ Entity *MakePlatform()
 	{
 		return platform;
 	}
+	platform->bbox.x=x;
+	platform->bbox.y=y;
+	platform->bbox.w=width;
+	platform->bbox.h=height;
+	platform->gravity = 0;
+	platform->health = NULL;
+	platform->enemy = E_NONE;
+	DrawPlatform(x,y, width, height);
+
 
 
 
 }
 
+Entity *MakePok(){
+	Entity *pok;
+	pok = NewEntity();
+	if(pok == NULL) return pok;
+	pok->sprite = LoadSprite("images/mantid.png", 32,32,-1,-1,-1);
+	pok->facing = 0;
+	pok->bbox.x = 3;
+	pok->bbox.y = 3;
+	pok->bbox.w = 22;
+	pok->bbox.h = 15; 
+	pok->weaplevel = 0;
+	pok->currentweapon = 0;
+	pok->sx = 400;
+	pok->sy = 400;
+	pok->shown = 1;
+	pok->state = ST_IDLE;
+	/*pok->think = PokThink;*/
+	pok->health = 35;
+	pok->healthmax = 35;
+	pok->ammo = 0;
+	pok->owner = pok;
+	pok->enemy = E_Player;
+	oddish = pok;
+	return pok;
+
+
+}
+
+void PokThink(Entity *self){
+	/*what even is*/
+	
+
+}
 
 
 Entity *MakePlayer()
@@ -408,7 +463,7 @@ Entity *MakePlayer()
   dude->sx =200;
   
   dude->sy = 10;
-
+  dude->gravity = 1;
   dude->shown = 1;
   dude->state = ST_IDLE;
   dude->think = PlayerThink;

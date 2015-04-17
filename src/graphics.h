@@ -69,9 +69,12 @@ void SwapSprite(SDL_Surface *sprite,int color1,int color2,int color3);
 void InitSpriteList();
 void FreeSprite(SPRITE *img);
 SPRITE *LoadSprite(char *filename,int sizex, int sizey, int c1, int c2, int c3);
-/*drawsprite and drawspritepart work the same except that Drawsprite will render an entire sprite on the desired srface
+/*
+drawsprite and drawspritepart work the same except that Drawsprite will render an entire sprite on the desired srface
   and drawspritepart can have the size of the sprite specified.  Know your sprite when using DSP since you can in theory
-  read too far, not that SDL will allow that.*/
+  read too far, not that SDL will allow that.
+  
+  */
 void DrawSprite(SPRITE *sprite,SDL_Surface *level,int sx,int sy, int frame);
 void CloseSprites();		/*call this before you exit to make sure all the memory that your program used is given back to your OS*/
 
