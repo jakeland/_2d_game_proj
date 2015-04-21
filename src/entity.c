@@ -435,8 +435,86 @@ Entity *MakePok(){
 
 void PokThink(Entity *self){
 	/*what even is*/
+	SDL_Rect b1, b2;
 	
+	self->sx+= self->vx;
+	self->vy+= self->vy;
+	if (self->sy <0)
+	{
+		self->sy = 0;
+		self->vy = 0;
+		self->delay += rand() % 20;
+	}
+	if(self->sy < level->h)
+	{
+		self->sy = level->h -100;
+		self->delay += rand() % 10;
+	}
 
+	b2.x = Player->sx + Player->bbox.x;
+	b2.y = Player->sy + Player->bbox.y;
+	b2.w = Player->bbox.w;
+	b2.h = Player->bbox.h;
+	
+	b1.x = self->sx + self->bbox.x;
+	b1.y = self->sy + self->bbox.y;
+	b1.w = self->bbox.w;
+	b1.h = self->bbox.h;
+
+
+	
+	
+	if(self->gravity != 0)
+	{
+		if(self->grounded != 1)
+			self->vy += 1.8;
+	}
+
+	if((self->health <= 0) &&(self->state != ST_DYING))
+	{
+		self->state = ST_DYING;
+	}
+	else if ((Player->health > 0) && (self->state != ST_DYING) && (Collide(b1, b2)))
+	{
+		Player->health -= 8;
+		self->state = ST_DYING;
+		self->frame = 7;
+
+	}
+
+	if (self->sx < -32)
+	{
+		self->shown = 0;
+		FreeEntity(self);
+
+	}
+
+	switch(self->state)
+	{
+	case ST_DYING:
+		if((rand() % 8) == 0)
+		{
+
+		}
+		FreeEntity(self);
+		
+		break;
+	case ST_FIRE1:
+
+
+
+		break;
+	case ST_IDLE:
+		self->frame++;
+	if(self->frame>=3)
+		self->frame = 0;
+	if(self->delay<=0) 
+		self->delay += rand()%26;
+	if(self->delay > 0) 
+		self->delay--;
+
+	break;
+	}
 }
 
 
