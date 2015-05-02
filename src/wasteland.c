@@ -35,7 +35,7 @@ void RenderLevel()
 {
 	
 	SDL_BlitSurface(LevelSprite->image, NULL, level, NULL);
-	 
+	
 	
 }
 

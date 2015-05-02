@@ -9,7 +9,8 @@
   Entities all contain information about the associate sprite that may be unique to itself
   as well as the animation information, if it has any.
 */
-
+#define MAXINVENTORY 100
+#define QUESTLIST	 100
 #define MAXENTITIES   511
 #define MAXSTATES     20
 #define SOUNDSPERENT  4
@@ -67,7 +68,7 @@ void DrawPlatform(int x, int y, int height, int width);
 void SetFloor();
 Entity *MakePlayer(); 
 Entity *MakePok();
-Entity *MakePlatform(int x, int y, int height, int width);
+Entity *MakePlatform(int x, int y, int width, int height);
 void PlayerThink(Entity *self);
 Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vx, int vy, int damage, int type, int enemy);
 void ShotgunThink(Entity *self);

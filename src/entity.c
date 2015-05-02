@@ -11,6 +11,7 @@ extern int NumLevels;
 extern int CurrentLevel;
 Entity EntityList[MAXENTITIES];
 Entity *Player;
+Entity *ground;
 SDL_Rect temp;
 Entity *platform;
 Entity *oddish;
@@ -251,6 +252,32 @@ Entity *HitEnt(Entity *self)
   return NULL;
 }
 
+Entity *HitPlat(Entity *self)
+{
+  int i;
+  SDL_Rect b1,b2;
+  b1.x = self->sx + self->bbox.x;
+  b1.y = self->sy + self->bbox.y;
+  b1.w = self->bbox.w;
+  b1.h = self->bbox.h;
+  for(i = 0;i < MAXENTITIES; i++)
+  {
+    if(EntityList[i].used)
+    {
+      if(EntityList[i].enemy == E_NONE)
+      {
+        b2.x = EntityList[i].sx + EntityList[i].bbox.x;
+        b2.y = EntityList[i].sy + EntityList[i].bbox.y;
+        b2.w = EntityList[i].bbox.w;
+        b2.h = EntityList[i].bbox.h;
+        if(Collide(b1,b2))
+         return &EntityList[i];
+      }
+    }
+  }
+  return NULL;
+}
+
 Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vy, int vx, int damage, int WeaponType, int enemy)
 {
 	Entity *blast;
@@ -391,6 +418,8 @@ Entity *MakePlatform(int x, int y,int width, int height)
 	{
 		return platform;
 	}
+	platform->sx = x;
+	platform->sy = y;
 	platform->bbox.x=x;
 	platform->bbox.y=y;
 	platform->bbox.w=width;
@@ -399,7 +428,8 @@ Entity *MakePlatform(int x, int y,int width, int height)
 	platform->health = NULL;
 	platform->enemy = E_NONE;
 	DrawPlatform(x,y, width, height);
-
+	ground = platform;
+	return platform;
 
 
 
@@ -531,16 +561,18 @@ Entity *MakePlayer()
   dude->sound[3] = LoadSound("sounds/explode.wav",MIX_MAX_VOLUME/5);
   */
   dude->facing = 0;
-  dude->bbox.x = 3;
-  dude->bbox.y = 7;
-  dude->bbox.w = 22;
-  dude->bbox.h = 15;
+  dude->sx =200;
+   dude->sy = 10;
+  dude->bbox.x = dude->sx;
+  dude->bbox.y = dude->sy;
+  dude->bbox.w = 30;
+  dude->bbox.h = 30;
   dude->weaplevel = 0;
   dude->currentweapon = 0;
   dude->frame = F_DOWN;
-  dude->sx =200;
   
-  dude->sy = 10;
+  dude->grounded = 0;
+ 
   dude->gravity = 1;
   dude->shown = 1;
   dude->state = ST_IDLE;
@@ -558,13 +590,48 @@ Entity *MakePlayer()
 
 void PlayerThink(Entity *self)
 {
+	Entity *target;    
  /*int  i;*/
+
+
+
  int numkeys;
  Uint8 *keys = SDL_GetKeyState(&numkeys);
  if(self->heat > 0)self->heat--;
  if(self->busy>0)self->busy--;
  if(self->health >0)
+	 
  {
+	 if (self->state != ST_DYING)
+		{
+			target = HitPlat(self); 
+			
+			if (target != NULL)
+			{
+				if(self->grounded !=1)
+				{
+					self->grounded = 1;
+					self->sy = target->sy - self->bbox.h;
+					printf("target was not null! \n");
+					
+				}
+				
+			}
+
+		}
+	 if(self->grounded ==1) /*grounded*/
+	 {
+		
+		 self->vy = 0 ;
+
+	 }
+	 else /*not grounded*/
+	 {
+		 self->vy = 3;
+		
+
+	 }
+	
 	 if(keys[SDLK_UP])
   {
        self->facing = F_UP;  
@@ -574,7 +641,7 @@ void PlayerThink(Entity *self)
   if(keys[SDLK_DOWN])
   {
       self->facing = F_DOWN;    
-	  self->vy+=2;
+	  
 	     
   }
   if (keys[SDLK_LEFT])
@@ -605,8 +672,10 @@ void PlayerThink(Entity *self)
 		}
 
   }
-  self->sx += self->vx;
+	self->sx += self->vx;
+	self->bbox.x = self->sx;
     self->sy += self->vy;
+	self->bbox.y = self->sy;
 
 	if (self->vx>0)
 		self->vx -=2;
@@ -617,14 +686,16 @@ void PlayerThink(Entity *self)
 	if (self->vy<0)
 		self->vy +=2;
     if(self->sy < 0)self->sy = 0;
-	if(self->sx <0)self->sx = 0;
+	if(self->sx < 0)self->sx = 0;
 	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->bbox.w;
-	if(self->sy > level->h-self->bbox.h)self->sy =level->h-self->bbox.h;
-
+	if(self->sy > level->h-self->bbox.h)self->sy =	level->h-self->bbox.h;
+	self->bbox.x = self->sx;
+	self->bbox.y = self->sy;
   switch(self->state)
   {
 
   case ST_DEAD:
+	  {
 	  self->frame =13;
 	  self->shown = 0;
 	  if(self->delay <= 0)
@@ -640,15 +711,20 @@ void PlayerThink(Entity *self)
 	  }
 	  else self->delay --;
 	break;
+	  }
    case ST_DYING:
+	   {
       if(self->frame >= 13)
       {
         self->state = ST_DEAD;
         self->delay = 10;
       }
       self->frame++;
+	  
     break;
+	   }
   case ST_IDLE:
+	  {
 	  switch(self->facing)
 	  {
 	  case F_UP:
@@ -665,6 +741,7 @@ void PlayerThink(Entity *self)
 	  break;
 	  }
 	  break;
+	  }
   case ST_FIRE1:
 	  {
 	   if(self->delay > 0)
@@ -705,6 +782,7 @@ void PlayerThink(Entity *self)
 	  break;
 	  }
   case ST_FIRE2:
+	  {
 	   if(self->delay > 0)
       {
         self->delay--;
@@ -765,11 +843,18 @@ void PlayerThink(Entity *self)
     break;
     
   }
-
+  default:
+	  {
+	self->state= ST_IDLE;
+	break;
+	  }
 
 
   
  }
  
 }
+
+}
+
 

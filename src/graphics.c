@@ -144,6 +144,7 @@ void ResetBuffer()
 	
 	
 	SDL_BlitSurface(buffer,&Camera,screen, NULL);
+
 	SDL_BlitSurface(level,&Camera,screen,NULL);
 }
 
@@ -1011,4 +1012,5 @@ void DrawMouse()
   Mouse->count = GetNextCount(Mouse);
   Mouse->frame = Mouse->count + Mouse->framestates[Mouse->state];
 }
+
 
