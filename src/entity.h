@@ -39,6 +39,7 @@ typedef struct ENTITY_T
   int vx,vy; /*vector values*/
   int gravity; /*0 = No, 1 = yes*/
   int grounded; /*0 = No, 1 = yes*/
+  int jumpdelay;
   /*an entity can have up to MAXSTATES states.  Each state shows the fram it Ends on, the previous state marks
     the begining.*/
   int framestates[MAXSTATES];

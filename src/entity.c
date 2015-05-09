@@ -420,8 +420,8 @@ Entity *MakePlatform(int x, int y,int width, int height)
 	}
 	platform->sx = x;
 	platform->sy = y;
-	platform->bbox.x=x;
-	platform->bbox.y=y;
+	platform->bbox.x=0;
+	platform->bbox.y=0;
 	platform->bbox.w=width;
 	platform->bbox.h=height;
 	platform->gravity = 0;
@@ -444,6 +444,8 @@ Entity *MakePok(){
 	pok->bbox.x = 3;
 	pok->bbox.y = 3;
 	pok->bbox.w = 22;
+	pok->gravity = 1;
+	pok->grounded = 0;
 	pok->bbox.h = 15; 
 	pok->weaplevel = 0;
 	pok->currentweapon = 0;
@@ -465,6 +467,7 @@ Entity *MakePok(){
 
 void PokThink(Entity *self){
 	/*what even is*/
+	Entity *target;
 	SDL_Rect b1, b2;
 	
 	self->sx+= self->vx;
@@ -563,14 +566,14 @@ Entity *MakePlayer()
   dude->facing = 0;
   dude->sx =200;
    dude->sy = 10;
-  dude->bbox.x = dude->sx;
-  dude->bbox.y = dude->sy;
+  dude->bbox.x = 0;
+  dude->bbox.y = 0;
   dude->bbox.w = 30;
   dude->bbox.h = 30;
   dude->weaplevel = 0;
   dude->currentweapon = 0;
   dude->frame = F_DOWN;
-  
+  dude->jumpdelay = 10;
   dude->grounded = 0;
  
   dude->gravity = 1;
@@ -610,13 +613,14 @@ void PlayerThink(Entity *self)
 			{
 				if(self->grounded !=1)
 				{
-					self->grounded = 1;
 					self->sy = target->sy - self->bbox.h;
-					printf("target was not null! \n");
+					self->grounded = 1;
+					
+					
 					
 				}
-				
 			}
+
 
 		}
 	 if(self->grounded ==1) /*grounded*/
@@ -627,15 +631,28 @@ void PlayerThink(Entity *self)
 	 }
 	 else /*not grounded*/
 	 {
-		 self->vy = 3;
-		
+		 if(self->vy <4)
+		 self->vy += 2;
+	    self->jumpdelay = 10;
 
 	 }
-	
+	 if(self->grounded == 1)
+	 {
+		 
+		if(keys[SDLK_SPACE])
+		{
+			if(self->jumpdelay <= 0)
+			{
+				self->grounded = 0;
+				self->vy= -20;
+			}
+			
+		}
+	 }
 	 if(keys[SDLK_UP])
   {
        self->facing = F_UP;  
-	   self->vy-=2;
+	  
 	     
   }
   if(keys[SDLK_DOWN])
@@ -673,24 +690,24 @@ void PlayerThink(Entity *self)
 
   }
 	self->sx += self->vx;
-	self->bbox.x = self->sx;
+	
     self->sy += self->vy;
-	self->bbox.y = self->sy;
+	
 
 	if (self->vx>0)
 		self->vx -=2;
 	if (self->vy>0)
-		self->vy -=2;
+		self->vy -=1;
 	if (self->vx<0)
 		self->vx +=2;
 	if (self->vy<0)
-		self->vy +=2;
+		self->vy +=1;
     if(self->sy < 0)self->sy = 0;
 	if(self->sx < 0)self->sx = 0;
 	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->bbox.w;
 	if(self->sy > level->h-self->bbox.h)self->sy =	level->h-self->bbox.h;
-	self->bbox.x = self->sx;
-	self->bbox.y = self->sy;
+	
+	self->jumpdelay -= 2;
   switch(self->state)
   {
 

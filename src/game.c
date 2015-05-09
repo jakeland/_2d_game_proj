@@ -45,13 +45,31 @@ int main(int argc, char *argv[])
 	SetFloor();
 	
 	/*testlevel = getCurrentLevel(0);*/
-	
+	/*RenderIntro();*/
+
+	/*If click button...
+	show 2 more buttons*/
+
+	/*If click level editor
+	go to level editor*/
+
+	/*If click start game, go to class select*/
+
+	/*If click game start, go to pick class*/
+
+	/*If click hunter, go to class = hunter*/
+
+	/*If click sniper, class = sniper*/
+
+	/*If click swordsman, class = swordsman*/
+
+	/*CreateLevel()*/
 	RenderLevel();
 	
 
 	LoadSprite("images/effects.png",16,16,-1,-1,-1);
 	/*window = DisplayBar();*/
-	ground = MakePlatform(0,2014, 2048, 20);
+	ground = MakePlatform(0,1994, 1994, 50);
 	player = MakePlayer();
 	oddish = MakePok();
 	done = 0;
@@ -64,7 +82,7 @@ int main(int argc, char *argv[])
 		
 		SetCamera();
 		DrawEntities();
-		SDL_FillRect( level, &player->bbox, SDL_MapRGB( screen->format, 0x77, 0x77, 0x77 ) );
+		/*SDL_FillRect( level, &ground->bbox, SDL_MapRGB( screen->format, 0x77, 0x77, 0x77 ) );*/
 		NextFrame();
 		SDL_PumpEvents();
 		keys = SDL_GetKeyState(&keyn);
