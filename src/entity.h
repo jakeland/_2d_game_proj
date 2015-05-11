@@ -71,6 +71,7 @@ Entity *MakePlayer();
 Entity *MakePok();
 Entity *MakePlatform(int x, int y, int width, int height);
 void PlayerThink(Entity *self);
+void PokThink(Entity *self);
 Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vx, int vy, int damage, int type, int enemy);
 void ShotgunThink(Entity *self);
 void PistolThink(Entity *self);

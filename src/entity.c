@@ -446,14 +446,14 @@ Entity *MakePok(){
 	pok->bbox.w = 22;
 	pok->gravity = 1;
 	pok->grounded = 0;
-	pok->bbox.h = 15; 
+	pok->bbox.h = 30; 
 	pok->weaplevel = 0;
 	pok->currentweapon = 0;
 	pok->sx = 400;
 	pok->sy = 400;
 	pok->shown = 1;
 	pok->state = ST_IDLE;
-	/*pok->think = PokThink;*/
+	pok->think = PokThink;
 	pok->health = 35;
 	pok->healthmax = 35;
 	pok->ammo = 0;
@@ -465,24 +465,16 @@ Entity *MakePok(){
 
 }
 
+
+
 void PokThink(Entity *self){
 	/*what even is*/
 	Entity *target;
 	SDL_Rect b1, b2;
 	
-	self->sx+= self->vx;
-	self->vy+= self->vy;
-	if (self->sy <0)
-	{
-		self->sy = 0;
-		self->vy = 0;
-		self->delay += rand() % 20;
-	}
-	if(self->sy < level->h)
-	{
-		self->sy = level->h -100;
-		self->delay += rand() % 10;
-	}
+	
+	
+
 
 	b2.x = Player->sx + Player->bbox.x;
 	b2.y = Player->sy + Player->bbox.y;
@@ -496,22 +488,64 @@ void PokThink(Entity *self){
 
 
 	
-	
-	if(self->gravity != 0)
+	target = HitPlat(self); 
+			
+	if (target != NULL)
 	{
-		if(self->grounded != 1)
-			self->vy += 1.8;
+		if(self->grounded !=1)
+		{
+			
+			self->sy = target->sy - self->bbox.h;
+			self->grounded = 1;
+					
+					
+					
+		}
 	}
 
-	if((self->health <= 0) &&(self->state != ST_DYING))
+	 if(self->grounded ==1) /*grounded*/
+	 {
+		
+		 self->vy = 0 ;
+
+	 }
+	 else /*not grounded*/
+	 {
+		 if(self->vy <4)
+		 self->vy += 2;
+	   
+
+	 }
+	 self->sx += self->vx;
+	
+    self->sy += self->vy;
+	
+
+	if (self->vx>0)
+		self->vx -=2;
+	if (self->vy>0)
+		self->vy -=1;
+	if (self->vx<0)
+		self->vx +=1;
+	if (self->vy<0)
+		self->vy +=2;
+    if(self->sy < 0)self->sy = 0;
+	if(self->sx < 0)self->sx = 0;
+	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->bbox.w;
+	if(self->sy > level->h-self->bbox.h)self->sy =	level->h-self->bbox.h;
+	 if (self->sy <0)
 	{
-		self->state = ST_DYING;
+		self->sy  = 0;
+		self->vy = 0;
+		self->delay += rand() % 20;
 	}
+	
 	else if ((Player->health > 0) && (self->state != ST_DYING) && (Collide(b1, b2)))
 	{
 		Player->health -= 8;
 		self->state = ST_DYING;
 		self->frame = 7;
+		self->vy = -self->vy *3;
 
 	}
 
@@ -522,12 +556,19 @@ void PokThink(Entity *self){
 
 	}
 
+	if (self->sy > level->h +32)
+	{
+
+		self->shown =0;
+		FreeEntity(self);
+	}
+
 	switch(self->state)
 	{
 	case ST_DYING:
 		if((rand() % 8) == 0)
 		{
-
+			/*drop items...*/
 		}
 		FreeEntity(self);
 		
@@ -548,6 +589,7 @@ void PokThink(Entity *self){
 
 	break;
 	}
+	
 }
 
 
@@ -644,7 +686,7 @@ void PlayerThink(Entity *self)
 			if(self->jumpdelay <= 0)
 			{
 				self->grounded = 0;
-				self->vy= -20;
+				self->vy= -30;
 			}
 			
 		}
@@ -699,9 +741,9 @@ void PlayerThink(Entity *self)
 	if (self->vy>0)
 		self->vy -=1;
 	if (self->vx<0)
-		self->vx +=2;
+		self->vx +=1;
 	if (self->vy<0)
-		self->vy +=1;
+		self->vy +=2;
     if(self->sy < 0)self->sy = 0;
 	if(self->sx < 0)self->sx = 0;
 	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->bbox.w;
