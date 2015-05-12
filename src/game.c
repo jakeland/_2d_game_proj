@@ -75,7 +75,8 @@ int main(int argc, char *argv[])
 	done = 0;
 	do
 	{
-		
+		/*if (!startgame)*/
+		/*{*/
 		UpdateEntities();
 		
 		ResetBuffer();
@@ -87,6 +88,18 @@ int main(int argc, char *argv[])
 		SDL_PumpEvents();
 		keys = SDL_GetKeyState(&keyn);
 		if(keys[SDLK_ESCAPE])done = 1;
+		/*{*/
+		/*else
+		show mouse
+		show buttons
+		update mouse 
+		update buttons
+		button think....
+		
+		
+		
+		
+		*/
 	}while(!done);
 
 	exit(0);

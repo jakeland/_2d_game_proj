@@ -12,6 +12,7 @@
 #define MAXINVENTORY 100
 #define QUESTLIST	 100
 #define MAXENTITIES   511
+#define MAXINV		  20
 #define MAXSTATES     20
 #define SOUNDSPERENT  4
 

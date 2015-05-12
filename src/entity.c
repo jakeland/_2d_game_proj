@@ -10,7 +10,8 @@ extern SDL_Rect Camera;
 extern int NumLevels;
 extern int CurrentLevel;
 Entity EntityList[MAXENTITIES];
-Entity *Player;
+Entity InventoryList[MAXINV];
+Entity *Player; 
 Entity *ground;
 SDL_Rect temp;
 Entity *platform;
@@ -67,6 +68,23 @@ void UpdateEntities()
   }
 }
 
+void UpdateInventory()
+{
+  int i;
+  for(i = 0;i < MAXINV;i++)
+  {
+    if(InventoryList[i].used)
+    {
+      if(InventoryList[i].think != NULL)
+      {
+       InventoryList[i].think(&InventoryList[i]);
+
+      }
+    }
+  }
+}
+
+
 void DrawEntity(Entity *ent)
 {
   DrawSprite(ent->sprite,screen,ent->sx-Camera.x,ent->sy-Camera.y,ent->frame);
@@ -97,6 +115,16 @@ void InitEntityList()
 	*/
     EntityList[i].shown = 0;
     EntityList[i].used = 0;
+  }
+}
+
+void InitInvList()
+{
+  int i/*, j*/;
+  NumEnts = 0;
+  for(i = 0;i < MAXINV; i++)
+  {
+    InventoryList[i].used = 0;
   }
 }
 
