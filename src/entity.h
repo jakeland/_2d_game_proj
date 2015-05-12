@@ -16,7 +16,7 @@
 #define MAXSTATES     20
 #define SOUNDSPERENT  4
 
-enum STATES {ST_IDLE,ST_FIRE1,ST_FIRE2,ST_FIRE3, ST_POWER1, ST_POWER2, ST_POWER3, ST_DYING,ST_DEAD};
+enum STATES {ST_IDLE,ST_FIRE1,ST_FIRE2,ST_FIRE3, ST_HUNTING, ST_POWER1, ST_POWER2, ST_POWER3, ST_DYING,ST_DEAD};
 enum FACING {F_UP, F_DOWN, F_LEFT, F_RIGHT};
 typedef struct ENTITY_T
 {
@@ -40,6 +40,7 @@ typedef struct ENTITY_T
   int vx,vy; /*vector values*/
   int gravity; /*0 = No, 1 = yes*/
   int grounded; /*0 = No, 1 = yes*/
+  int canjump;
   int jumpdelay;
   /*an entity can have up to MAXSTATES states.  Each state shows the fram it Ends on, the previous state marks
     the begining.*/
@@ -51,6 +52,7 @@ typedef struct ENTITY_T
   int healthmax;
   int ammo;
   int heat;
+  int fmod; /*facing modifier, -1 = left, 1 = right */
   int enemy;
 }Entity;
 

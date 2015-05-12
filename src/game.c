@@ -8,7 +8,7 @@
 #include "graphics.h"
 #include "entity.h"
 #include"wasteland.h"
-
+#include "leveledit.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer;
@@ -21,7 +21,7 @@ extern SDL_Surface *clipmask;
 
 
 int drawents = 1, drawboxes =0;
-
+int gamestart = 0; /*gamestart, 0 = menu, 1 = start the game, 2 will equal level editor*/
 
 
 SDL_Joystick *joy;
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 	SPRITE *tile;
 	int done;
 	int keyn;
+	
 	Entity *player;
 	Entity *oddish;
 	Entity *ground;
@@ -64,17 +65,20 @@ int main(int argc, char *argv[])
 	/*If click swordsman, class = swordsman*/
 
 	/*CreateLevel()*/
-	RenderLevel();
 	
+			RenderLevel();
+			CreatePlats();
 
-	LoadSprite("images/effects.png",16,16,-1,-1,-1);
-	/*window = DisplayBar();*/
-	ground = MakePlatform(0,1994, 1994, 50);
-	player = MakePlayer();
-	oddish = MakePok();
+			LoadSprite("images/effects.png",16,16,-1,-1,-1);
+			/*window = DisplayBar();*/
+			/*ground = MakePlatform(0,1994, 1994, 50);*/
+			player = MakePlayer();
+			oddish = MakePok();
+		
 	done = 0;
 	do
 	{
+		
 		/*if (!startgame)*/
 		/*{*/
 		UpdateEntities();
@@ -121,9 +125,11 @@ void CleanUpAll()
 
 void Init_All()
 {
+	
 	Init_Graphics();
 	InitSpriteList();
 	InitEntityList();
+
 	InitMouse();
 	
 	LoadLevelSprite();
