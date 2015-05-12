@@ -16,7 +16,7 @@
 #define MAXSTATES     20
 #define SOUNDSPERENT  4
 
-enum STATES {ST_IDLE,ST_FIRE1,ST_FIRE2,ST_FIRE3, ST_HUNTING, ST_POWER1, ST_POWER2, ST_POWER3, ST_DYING,ST_DEAD};
+enum STATES {ST_IDLE,ST_FIRE1,ST_FIRE2,ST_FIRE3, ST_HUNTING, ST_POWER1, ST_POWER2, ST_POWER3, ST_ATTACK, ST_DYING,ST_DEAD};
 enum FACING {F_UP, F_DOWN, F_LEFT, F_RIGHT};
 typedef struct ENTITY_T
 {
@@ -75,6 +75,7 @@ Entity *MakePok();
 Entity *MakePlatform(int x, int y, int width, int height);
 void PlayerThink(Entity *self);
 void PokThink(Entity *self);
+Entity *MakePok2();
 Entity *SpawnBullet(Entity *Owner, int sx, int sy, int vx, int vy, int damage, int type, int enemy);
 void ShotgunThink(Entity *self);
 void PistolThink(Entity *self);

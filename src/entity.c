@@ -16,6 +16,7 @@ Entity *ground;
 SDL_Rect temp;
 Entity *platform;
 Entity *oddish;
+Entity *charmander;
 int NumLives = 3;
 int NumEnts;
 int MOUSEMOVE = 1;
@@ -528,6 +529,39 @@ Entity *MakePok(){
 
 }
 
+Entity *MakePok2(){
+	Entity *pok2;
+	pok2 = NewEntity();
+	if(pok2 == NULL) return pok2;
+	pok2->sprite = LoadSprite("images/mantid.png", 32,32,-1,-1,-1);
+	pok2->facing = 0;
+	pok2->bbox.x = 30;
+	pok2->bbox.y = 3;
+	pok2->bbox.w = 22;
+	pok2->gravity = 1;
+	pok2->grounded = 0;
+	pok2->bbox.h = 30; 
+	pok2->weaplevel = 0;
+	pok2->currentweapon = 0;
+	pok2->sx = 400;
+	pok2->sy = 400;
+	pok2->shown = 1;
+	pok2->state = ST_IDLE;
+	pok2->think = PokThink;
+	pok2->health = 35;
+	pok2->healthmax = 35;
+	pok2->ammo = 0;
+	pok2->owner = pok2;
+	pok2->fmod = 1;
+	pok2->enemy = E_Player;
+	charmander = pok2;
+	pok2->facing = 0;
+	pok2->frame = 0;
+	return pok2;
+
+
+}
+
 
 
 void PokThink(Entity *self){
@@ -699,6 +733,15 @@ void PokThink(Entity *self){
 		{
 			
 			self->vx=2 * self->fmod;
+			if(self->sy == b2.y)
+				self->state = ST_ATTACK;
+			else
+			break;
+			
+		}
+	case ST_ATTACK:
+		{
+			
 			break;
 		}
 	case ST_IDLE:
@@ -757,6 +800,7 @@ Entity *MakePlayer()
   Player = dude;
   return dude;
 }
+
 
 
 

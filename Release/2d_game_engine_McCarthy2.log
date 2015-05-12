@@ -1,4 +1,4 @@
-﻿Build started 5/12/2015 1:09:07 PM.
+﻿Build started 5/12/2015 3:00:40 PM.
      1>Project "C:\Users\Jakeland\Documents\2D_LATE\2d_game_engine_McCarthy2.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\2d_game_engine_McCarthy2.lastbuildstate".
@@ -7,9 +7,9 @@
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt src\entity.c src\game.c src\graphics.c src\leveledit.c src\wasteland.c
          entity.c
-     1>src\entity.c(186): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\entity.c(244): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>src\entity.c(488): warning C4047: '=' : 'int' differs in levels of indirection from 'void *'
+     1>src\entity.c(187): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\entity.c(245): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>src\entity.c(489): warning C4047: '=' : 'int' differs in levels of indirection from 'void *'
          game.c
      1>src\game.c(33): warning C4101: 'temp' : unreferenced local variable
      1>src\game.c(35): warning C4101: 'tile' : unreferenced local variable
@@ -89,7 +89,7 @@
          Release\leveledit.obj
          Release\wasteland.obj
          Generating code
-     1>c:\users\jakeland\documents\2d_late\src\entity.c(364): warning C4715: 'SpawnBullet' : not all control paths return a value
+     1>c:\users\jakeland\documents\2d_late\src\entity.c(365): warning C4715: 'SpawnBullet' : not all control paths return a value
          Finished generating code
          2d_game_engine_McCarthy2.vcxproj -> C:\Users\Jakeland\Documents\2D_LATE\.\2d_game_engine_McCarthy2.exe
        Manifest:
@@ -101,4 +101,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.64
+Time Elapsed 00:00:00.59

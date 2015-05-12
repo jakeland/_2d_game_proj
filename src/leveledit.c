@@ -21,6 +21,11 @@ void CreatePlats()
 	ground = MakePlatform(40,1800,200,15);
 	ground = MakePlatform(290,1900,100, 15);
 	ground = MakePlatform(400,300, 200, 15);
+
+	ground = MakePlatform(1000, 1500, 900, 15);
+
+	ground = MakePlatform(1900, 1300, 100, 15);
+	ground = MakePlatform(1900, 1300, 100, 15);
 }
 
 
