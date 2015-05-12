@@ -799,6 +799,8 @@ Entity *MakePlayer()
   dude->canjump = 0;
   Player = dude;
   return dude;
+
+  
 }
 
 

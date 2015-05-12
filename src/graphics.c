@@ -415,6 +415,23 @@ void DrawSprite(SPRITE *sprite,SDL_Surface *surface,int sx,int sy, int frame)
     SDL_BlitSurface(sprite->image, &src, surface, &dest);
   
 }
+
+/*SHould only be used to draw sprites on something that is larger than the original picture...)*/
+
+void BigDrawSprite(SPRITE *sprite,SDL_Surface *surface,int sx,int sy,int destw,int desth, int frame)
+{
+    SDL_Rect src,dest;
+    src.x = frame%sprite->framesperline * sprite->w;
+    src.y = frame/sprite->framesperline * sprite->h;
+    src.w = sprite->w;
+    src.h = sprite->h;
+    dest.x = sx;
+    dest.y = sy;
+    dest.w = destw;
+    dest.h = desth;
+    SDL_BlitSurface(sprite->image, &src, surface, &dest);
+}
+
 /*
  * For some lazy blending, I use part of one sprite to blend over another.
  * It looks.... ok.  But nothing fancy.
