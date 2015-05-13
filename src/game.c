@@ -39,12 +39,14 @@ int main(int argc, char *argv[])
 	Entity *player;
 	Entity *oddish;
 	Entity *ground;
+	Entity *pikachu;
 	Uint8 *keys;
 	
 	Init_All();
 
 	SetFloor();
 	
+
 	/*testlevel = getCurrentLevel(0);*/
 	/*RenderIntro();*/
 
@@ -73,7 +75,11 @@ int main(int argc, char *argv[])
 			/*window = DisplayBar();*/
 			/*ground = MakePlatform(0,1994, 1994, 50);*/
 			player = MakePlayer();
-			oddish = MakePok();
+			oddish = MakePok(200, 400);
+			oddish = MakePok(100, 799);
+			oddish = MakePok(220, 430);
+			oddish = MakePok(2000, 1);
+			pikachu = MakePok3(1700,900);
 		
 	done = 0;
 	do

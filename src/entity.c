@@ -4,7 +4,7 @@
 #include "wasteland.h"
 enum FACTION {E_NONE,E_Player,E_Bugs}; /*labeling system for enemies, decides what effects what. */
 extern SDL_Surface *screen;
-extern SDL_Surface *level;
+extern SDL_Surface *level;   
 extern SDL_Event Event; //This is just so the think functions in this file can read what has been input.
 extern SDL_Rect Camera;
 extern int NumLevels;
@@ -17,6 +17,7 @@ SDL_Rect temp;
 Entity *platform;
 Entity *oddish;
 Entity *charmander;
+Entity *pikachu;
 int NumLives = 3;
 int NumEnts;
 int MOUSEMOVE = 1;
@@ -68,7 +69,7 @@ void UpdateEntities()
     }
   }
 }
-
+/*Not sure what I'm doing with this, might use it later...
 void UpdateInventory()
 {
   int i;
@@ -84,11 +85,15 @@ void UpdateInventory()
     }
   }
 }
-
+*/
 
 void DrawEntity(Entity *ent)
 {
+	if (ent->isBoss != 1)
   DrawSprite(ent->sprite,screen,ent->sx-Camera.x,ent->sy-Camera.y,ent->frame);
+
+	else
+		BigDrawSprite(ent->sprite,screen,ent->sx - Camera.x, ent->sy - Camera.y, ent->bbox.w, ent->bbox.h, ent->frame);  
 }
 
 void DrawPlatform(int x, int y, int w, int h){
@@ -496,11 +501,17 @@ Entity *MakePlatform(int x, int y,int width, int height)
 
 }
 
-Entity *MakePok(){
+Entity *MakePok(int x, int y){
 	Entity *pok;
 	pok = NewEntity();
 	if(pok == NULL) return pok;
-	pok->sprite = LoadSprite("images/mantid.png", 32,32,-1,-1,-1);
+	pok->type = 0;
+	pok->evolvetype = 1;
+	pok->idleframe = 0;
+	pok->maxidle = 3;
+	pok->walkframe = 4;
+	pok->walkframe = 6;
+	pok->sprite = LoadSprite("images/oddishs.png", 32,32,-1,-1,-1);
 	pok->facing = 0;
 	pok->bbox.x = 3;
 	pok->bbox.y = 3;
@@ -510,8 +521,8 @@ Entity *MakePok(){
 	pok->bbox.h = 30; 
 	pok->weaplevel = 0;
 	pok->currentweapon = 0;
-	pok->sx = 400;
-	pok->sy = 400;
+	pok->sx = x;
+	pok->sy = y;
 	pok->shown = 1;
 	pok->state = ST_IDLE;
 	pok->think = PokThink;
@@ -523,7 +534,7 @@ Entity *MakePok(){
 	pok->enemy = E_Player;
 	oddish = pok;
 	pok->facing = 0;
-	pok->frame = 0;
+	pok->frame = 17;
 	return pok;
 
 
@@ -533,6 +544,7 @@ Entity *MakePok2(){
 	Entity *pok2;
 	pok2 = NewEntity();
 	if(pok2 == NULL) return pok2;
+
 	pok2->sprite = LoadSprite("images/mantid.png", 32,32,-1,-1,-1);
 	pok2->facing = 0;
 	pok2->bbox.x = 30;
@@ -561,6 +573,173 @@ Entity *MakePok2(){
 
 
 }
+Entity *spawnEvo(int x, int y){
+	Entity *stone1;
+	stone1 = NewEntity();
+	if(stone1 == NULL) return stone1;
+	stone1->sprite = LoadSprite("images/charmander.png", 32,32, -1,-1,-1);
+	stone1->sx = x;
+	stone1->sy = y;
+	stone1->bbox.x;
+	stone1->bbox.y;
+	stone1->bbox.h = 20;
+	stone1->bbox.w = 20;
+	stone1->think = StoneThought;
+	stone1->state = ST_IDLE;
+	stone1->owner = stone1;
+	return stone1;
+
+}
+
+void StoneThought(Entity *self){
+	
+	int i;
+	for(i = 0;i < MAXENTITIES; i++)
+	  {
+		if(EntityList[i].used)
+		{
+			if(EntityList[i].evolvetype == 0)
+				EntityList[i].evolvetype == 1;
+				
+		}
+
+
+	}
+	FreeEntity(self);
+}
+
+Entity *MakePok3(int x, int y){
+	Entity *pok3;
+	pok3 = NewEntity();
+	if(pok3 == NULL) return pok3;
+	pok3->sprite = LoadSprite("images/pikachu.png", 32,32,-1,-1,-1);
+	pok3->isBoss = 1;
+	pok3->facing = 0;
+	pok3->bbox.x = 30;
+	pok3->bbox.y = 3;
+	pok3->bbox.w = 60;
+	pok3->gravity = 1;
+	pok3->grounded = 0;
+	pok3->bbox.h = 70; 
+	pok3->weaplevel = 0;
+	pok3->currentweapon = 0;
+	pok3->sx = 2000;
+	pok3->sy = 2000;
+	pok3->shown = 1;
+	pok3->state = ST_IDLE;
+	pok3->think = PokThink3;
+	pok3->health = 35;
+	pok3->healthmax = 35;
+	pok3->ammo = 0;
+	pok3->owner = pok3;
+	pok3->fmod = 1;
+	pok3->enemy = E_Player;
+	pikachu = pok3;
+	pok3->facing = 0;
+	
+	pok3->idleframe = 0;
+	pok3->idleframe = 1;
+	pok3->frame = pok3->idleframe;
+	pok3->delay = 20;
+	return pok3;
+
+
+}
+
+void PokThink3(Entity *self){
+	int rsx =  rand() % Camera.w + 200;
+	int rsy = rand ()  % 40;
+	int rvx = rand () % 2;
+	int rvy = rand () % 4;
+	
+	if(self->health <= 0)
+		self->state == ST_DYING;
+	
+	switch (self->state)
+	{
+	case ST_ATTACK1:
+		{
+			self->delay = 20;
+			SpawnBullet(self,Camera.x-100 + rsx,Player->sy + rsy - 690,6 + rvy,0 + rvx,5,Wp_Assault,E_Player);
+			self->state = ST_IDLE;
+			break;
+		}
+		case ST_ATTACK2:
+		{
+			self->delay = 20;
+			SpawnBullet(self,Camera.x-100 + rsx,Player->sy + rsy - 500,6 + rvy,0 + rvx,5,Wp_Assault,E_Player);
+			SpawnBullet(self,Camera.x-100 + rsx,Player->sy + rsy - 500,6 + rvy,0 + rvx,5,Wp_Assault,E_Player);
+			self->state = ST_IDLE;
+			break;
+		}
+		case ST_ATTACK3:
+		{
+			self->delay = 20;
+			SpawnBullet(self,Camera.x-100 + rsx,Player->sy + rsy - 300,6 + rvy,0 + rvx,5,Wp_Assault,E_Player);
+			SpawnBullet(self,Camera.x-100 + rsx,Player->sy + rsy - 300 + 84,6 + rvy,0 + rvx,5,Wp_Assault,E_Player);
+			SpawnBullet(self,Camera.x-100 + rsx,Player->sy + rsy -300,6 - rvy,0 + rvx,5,Wp_Assault,E_Player);
+			SpawnBullet(self, Camera.x-100 + rsx,Player->sy + rsy -300,6 - rvy,0 + rvx,5,Wp_Assault,E_Player);
+			self->state = ST_IDLE;
+			break;
+
+		}
+		case ST_DYING:
+		{
+			spawnEvo(self->sx, self->sy);
+			self->state = ST_DEAD;
+			
+			break;
+
+		}
+		case ST_IDLE:
+			{
+				if (self->frame < self->maxidle)
+					self->frame++;
+				else
+					self->frame = self->idleframe;
+				if(self->delay <= 0)
+				{
+					if(self->health >= self->healthmax * .75)
+					{
+						self->state = ST_ATTACK1;
+						break;
+					}
+					if(self->health < self->healthmax * .75)
+					{
+						self->state = ST_ATTACK2;
+						break;
+					}
+					if(self->health < self->healthmax * .5)
+					{
+						self->state = ST_ATTACK3;
+						break;
+					}
+					
+				}
+				else
+				{
+				self->delay --;
+				break;
+				}
+				break;
+			}
+		case ST_DEAD:
+			{
+				self->shown = 0;
+				self->used = 0;
+				FreeEntity(self);
+				break;
+			}
+		default:
+			{
+				self->state = ST_IDLE;
+				break;
+			}
+
+	
+	}
+
+}
 
 
 
@@ -570,9 +749,21 @@ void PokThink(Entity *self){
 	SDL_Rect b1, b2;
 	
 	
+		if(self->type== 0)
+			self->type = self->evolvetype;
+
+		if(self->type == 1)
+		{
+			
+			self->idleframe = 7;
+			self->maxidle = 9;
+			self->frame = 7;
+
+		}
+	
 	
 
-
+	
 	b2.x = Player->sx + Player->bbox.x;
 	b2.y = Player->sy + Player->bbox.y;
 	b2.w = Player->bbox.w;
@@ -594,6 +785,7 @@ void PokThink(Entity *self){
 			
 			self->sy  = target->sy - self->bbox.h;
 			self->grounded = 1;
+			
 					
 					
 					
@@ -604,7 +796,7 @@ void PokThink(Entity *self){
 	 {
 		
 		 self->vy = 0 ;
-
+		 self->grounded = 0;
 	 }
 	 else /*not grounded*/
 	 {
@@ -619,7 +811,7 @@ void PokThink(Entity *self){
 	
 
 	if (self->vx>0)
-		self->vx -=2;
+		self->vx -=3;
 	if (self->vy>0)
 		self->vy -=1;
 	if (self->vx<0)
@@ -630,13 +822,9 @@ void PokThink(Entity *self){
 	if(self->sx < 0)self->sx = 0;
 	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->bbox.w;
 	if(self->sy > level->h-self->bbox.h)self->sy =	level->h-self->bbox.h;
-	 if((self->sx > b2.x -10 || self-> sx < b2.x + 10) && self->sy >= b2.y)
+	 if((!(b2.x > self->sx + 10) || !(b2.x < self->sx-10))&& self->sy <= b2.y)
 	{
-		if(self->health > 0){
-		if(self->grounded == 1)
-			
-			self->state = ST_HUNTING;
-		}
+		self->state = ST_HUNTING;
 	}
 	 if (self->sy <0)
 	{
@@ -651,6 +839,7 @@ void PokThink(Entity *self){
 		self->state = ST_DYING;
 		self->frame = 7;
 		self->vy = -self->vy *3;
+		
 
 	}
 	
@@ -731,7 +920,11 @@ void PokThink(Entity *self){
 		break;
 	case ST_HUNTING:
 		{
-			
+			if(self->type == 1 && self->grounded == 1)
+			{
+			self->vy = - 20;
+			self->grounded = 0;
+			}
 			self->vx=2 * self->fmod;
 			if(self->sy == b2.y)
 				self->state = ST_ATTACK;
@@ -767,13 +960,14 @@ Entity *MakePlayer()
   Entity *dude;
   dude = NewEntity();
   if(dude == NULL)return dude;
-  dude->sprite = LoadSprite("images/ship.png",32,32,-1,-1,-1); //Load the dude file, no palette swapping
+  dude->sprite = LoadSprite("images/gunman.png",32,32,-1,-1,-1); //Load the dude file, no palette swapping
   /*
   dude->sound[0] = LoadSound("sounds/blaster.wav",MIX_MAX_VOLUME/5);
   dude->sound[1] = LoadSound("sounds/redblast.wav",MIX_MAX_VOLUME/5);
   dude->sound[2] = LoadSound("sounds/xplode.wav",MIX_MAX_VOLUME/5);
   dude->sound[3] = LoadSound("sounds/explode.wav",MIX_MAX_VOLUME/5);
   */
+  
   dude->facing = 0;
   dude->sx =200;
    dude->sy = 10;
@@ -786,12 +980,12 @@ Entity *MakePlayer()
   dude->frame = F_DOWN;
   dude->jumpdelay = 10;
   dude->grounded = 0;
- 
+  dude->fdelay = 0;
   dude->gravity = 1;
   dude->shown = 1;
   dude->state = ST_IDLE;
   dude->think = PlayerThink;
-  dude->health = 30;
+  dude->health = 40;
   dude->healthmax = 30;
   dude->ammo = 5;
   dude->owner = dude;
@@ -906,19 +1100,26 @@ void PlayerThink(Entity *self)
 		}
 
   }
+  if (keys[SDLK_b])
+  {
+	  if(self->state == ST_IDLE)
+	  {
+		 spawnEvo(self->sx + 30, self->sy + 30); 
+	  }
+  }
 	self->sx += self->vx;
 	
     self->sy += self->vy;
 	
 
-	if (self->vx>0)
+	if (self->vx>0 && self->vx < 4)
 		self->vx -=2;
 	if (self->vy>0)
 		self->vy -=1;
-	if (self->vx<0)
+	if (self->vx<0 && self->vx < 4)
 		self->vx +=2;
 	if (self->vy<0)
-		self->vy +=2;
+		self->vy +=1;
     if(self->sy < 0)self->sy = 0;
 	if(self->sx < 0)self->sx = 0;
 	if(self->sx > level->w-self->bbox.w)self->sx =  level->w-self->bbox.w;
@@ -930,50 +1131,33 @@ void PlayerThink(Entity *self)
 
   case ST_DEAD:
 	  {
-	  self->frame =13;
-	  self->shown = 0;
-	  if(self->delay <= 0)
-	  {
-		  if(NumLives > 0)
-		  {
-			  self->health = self->healthmax;
-			  self->state = ST_IDLE;
-			  self->shown = 1;
-			  NumLives--;
-		  }
-		  else exit (1);
-	  }
-	  else self->delay --;
+	  
+		 exit (1);
+	  
+	  
 	break;
 	  }
    case ST_DYING:
 	   {
-      if(self->frame >= 13)
-      {
         self->state = ST_DEAD;
-        self->delay = 10;
-      }
-      self->frame++;
+    
 	  
     break;
 	   }
   case ST_IDLE:
 	  {
-	  switch(self->facing)
+	  if(self->fdelay <= 0)
 	  {
-	  case F_UP:
-	  self->frame = 0;
-	  break;
-	  case F_DOWN:
-	  self->frame = 4;
-	  break;
-	  case F_LEFT:
-	  self->frame = 8;
-	  break;
-	  case F_RIGHT:
-	  self->frame = 12;
-	  break;
+		  if(self->frame < 3)
+		  self->frame++;
+		  else 
+		  self->frame = 0;
+
+		  self->fdelay = 5;
 	  }
+	  else
+		  self->fdelay--;
+
 	  break;
 	  }
   case ST_FIRE1:
@@ -992,19 +1176,19 @@ void PlayerThink(Entity *self)
 		  switch(self->facing)
 		  {
   case F_RIGHT:
-		  SpawnBullet(self, self->sx + 10, self->sy + 3, 0,8,2, Wp_Assault,E_Bugs);
+		  SpawnBullet(self, self->sx + 10, self->sy + 3, 0,8,10, Wp_Assault,E_Bugs);
 		  self->delay=14;
 		  break;
   case F_UP:
-		  SpawnBullet(self, self->sx + 10, self->sy + 3, -8,0,2, Wp_Assault,E_Bugs);
+		  SpawnBullet(self, self->sx + 10, self->sy + 3, -8,0,10, Wp_Assault,E_Bugs);
 		  self->delay=14;
 		  break;
   case F_LEFT:
-		  SpawnBullet(self, self->sx + 10, self->sy + 3, 0,-8,2, Wp_Assault,E_Bugs);
+		  SpawnBullet(self, self->sx + 10, self->sy + 3, 0,-8,10, Wp_Assault,E_Bugs);
 		  self->delay=14;
 		  break;
   case F_DOWN:
-		  SpawnBullet(self, self->sx + 10, self->sy + 3, 8,0,2, Wp_Assault,E_Bugs);
+		  SpawnBullet(self, self->sx + 10, self->sy + 3, 8,0,10, Wp_Assault,E_Bugs);
 		  self->delay=14;
 		  break;
 		  }
@@ -1032,18 +1216,18 @@ void PlayerThink(Entity *self)
 			{
 				case F_UP:
 				{	
-					SpawnBullet(self,self->sx + 10,self->sy + 3,-5,0,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,-3,2,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,-3,-2,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,-4,0,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,-3,2,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,-2,-2,4,Wp_Shotgun,E_Bugs);
 					self->delay = 20;
 					break;
 				}
 			  case F_DOWN:
 				{
 					
-					SpawnBullet(self,self->sx + 10,self->sy + 3,5,0,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,3,2,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,3,-2,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,4,2,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,3,2,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,2,-2,4,Wp_Shotgun,E_Bugs);
 					self->delay = 20;
 					break;
 					
@@ -1051,9 +1235,9 @@ void PlayerThink(Entity *self)
 				}
 			 case F_RIGHT:
 				{
-					SpawnBullet(self,self->sx + 10,self->sy + 3,-2,3,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,0,5,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,2,3,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,-2,2,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,0,5,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,2,2,4,Wp_Shotgun,E_Bugs);
 					self->delay = 20;
 					 break;
           
@@ -1061,9 +1245,9 @@ void PlayerThink(Entity *self)
 				}
 			case F_LEFT:
 				{
-					SpawnBullet(self,self->sx + 10,self->sy + 3,-2,-3,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,0,-5,3,Wp_Shotgun,E_Bugs);
-					SpawnBullet(self,self->sx + 10,self->sy + 3,2,-3,3,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,-2,-2,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,0,-5,4,Wp_Shotgun,E_Bugs);
+					SpawnBullet(self,self->sx + 10,self->sy + 3,2,-2,4,Wp_Shotgun,E_Bugs);
 					self->delay = 20;
 					
 					break;

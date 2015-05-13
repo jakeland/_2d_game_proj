@@ -75,6 +75,7 @@ drawsprite and drawspritepart work the same except that Drawsprite will render a
   read too far, not that SDL will allow that.
   
   */
+void BigDrawSprite(SPRITE *sprite, SDL_Surface *surface, int sx, int sy, int destw, int desth, int frame);
 void DrawSprite(SPRITE *sprite,SDL_Surface *level,int sx,int sy, int frame);
 void CloseSprites();		/*call this before you exit to make sure all the memory that your program used is given back to your OS*/
 

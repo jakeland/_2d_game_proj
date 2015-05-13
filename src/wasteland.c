@@ -44,9 +44,11 @@ void SetCamera()
 {
 	
 	
-
+	if(Player!= NULL)
+	{
 	vcam.x = ((int)Player->sx + (int)Player->bbox.w/2) - screen->w/2;
 	vcam.y = ((int)Player->sy + (int)Player->bbox.h/2) - screen->h/2;
+	}
 	
 
 	

@@ -413,6 +413,7 @@ void DrawSprite(SPRITE *sprite,SDL_Surface *surface,int sx,int sy, int frame)
     dest.w = sprite->w;
     dest.h = sprite->h;
     SDL_BlitSurface(sprite->image, &src, surface, &dest);
+	
   
 }
 

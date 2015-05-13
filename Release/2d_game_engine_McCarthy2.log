@@ -1,4 +1,4 @@
-﻿Build started 5/12/2015 5:00:05 PM.
+﻿Build started 5/13/2015 6:39:15 PM.
      1>Project "C:\Users\Jakeland\Documents\2D_LATE\2d_game_engine_McCarthy2.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\2d_game_engine_McCarthy2.lastbuildstate".
@@ -7,79 +7,81 @@
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt src\entity.c src\game.c src\graphics.c src\leveledit.c src\wasteland.c
          entity.c
-     1>src\entity.c(187): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>src\entity.c(245): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>src\entity.c(489): warning C4047: '=' : 'int' differs in levels of indirection from 'void *'
+     1>src\entity.c(192): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>src\entity.c(250): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>src\entity.c(494): warning C4047: '=' : 'int' differs in levels of indirection from 'void *'
+     1>src\entity.c(602): warning C4553: '==' : operator has no effect; did you intend '='?
+     1>src\entity.c(656): warning C4553: '==' : operator has no effect; did you intend '='?
          game.c
      1>src\game.c(33): warning C4101: 'temp' : unreferenced local variable
      1>src\game.c(35): warning C4101: 'tile' : unreferenced local variable
      1>src\game.c(41): warning C4101: 'ground' : unreferenced local variable
      1>src\game.c(34): warning C4101: 'buffer' : unreferenced local variable
-     1>src\game.c(136): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+     1>src\game.c(142): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
          graphics.c
      1>src\graphics.c(350): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
      1>src\graphics.c(379): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-     1>src\graphics.c(754): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(755): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(759): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(756): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(760): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(761): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(764): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(766): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(769): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(762): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(765): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(767): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(770): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(771): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(774): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(772): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(775): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(776): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(779): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(785): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(791): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(794): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(777): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(780): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(786): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(792): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(795): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(799): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(796): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(800): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(801): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(804): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(806): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(809): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(802): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(805): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(807): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(810): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(811): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(814): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(812): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(815): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(816): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(820): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(817): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(821): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(824): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(826): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(829): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(831): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(836): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(840): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(822): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(825): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(827): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(830): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(832): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(837): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(841): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(845): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(850): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(842): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(846): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(851): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(854): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(852): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(855): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(856): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(859): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(857): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(860): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(861): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(870): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(862): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(871): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(874): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(872): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(875): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(876): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(879): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(877): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(880): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(884): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(881): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(885): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(886): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(890): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(887): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
      1>src\graphics.c(891): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(894): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
-     1>src\graphics.c(896): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(892): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(895): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
+     1>src\graphics.c(897): warning C4244: '=' : conversion from 'double' to 'Uint8', possible loss of data
          leveledit.c
          wasteland.c
        Link:
@@ -89,7 +91,7 @@
          Release\leveledit.obj
          Release\wasteland.obj
          Generating code
-     1>c:\users\jakeland\documents\2d_late\src\entity.c(365): warning C4715: 'SpawnBullet' : not all control paths return a value
+     1>c:\users\jakeland\documents\2d_late\src\entity.c(370): warning C4715: 'SpawnBullet' : not all control paths return a value
          Finished generating code
          2d_game_engine_McCarthy2.vcxproj -> C:\Users\Jakeland\Documents\2D_LATE\.\2d_game_engine_McCarthy2.exe
        Manifest:
@@ -101,4 +103,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.96
+Time Elapsed 00:00:00.59
